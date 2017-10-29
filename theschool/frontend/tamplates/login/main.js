@@ -10,28 +10,33 @@ $.ajax({
                 password:password}
         },
     success: function(info){
-        switch(info['role']){
-            case 'owner':
-            $.ajax('../moduls/banners/ownerbanner.html').always(function(banner){
-                   //replacing mustaches
-                 $('#banner').replaceWith(banner);
-            })
-                 $.ajax('../moduls/homepages/owner.html').always(function(hp){
+        console.log(info)
+    }
+})
+}
+
+//         switch(info['role']){
+//             case 'owner':
+//             $.ajax('../moduls/banners/ownerbanner.html').always(function(banner){
+//                    //replacing mustaches
+//                  $('#banner').replaceWith(banner);
+//             })
+//                  $.ajax('../moduls/homepages/owner.html').always(function(hp){
                   
-                 $("#loginbox").replaceWith(hp);
-            })
+//                  $("#loginbox").replaceWith(hp);
+//             })
            
-        }
+//         }
               
      
       
-              }
-})
-}
-function addAndUpdate(){
+//               }
+// })
+// }
+// function addAndUpdate(){
        
 
 
 
 
-}
+// }sss

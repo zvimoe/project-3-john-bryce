@@ -1,13 +1,12 @@
 <?php
+session_start();
    require_once "admin-api.php";
-   require_once "students-api.php";
-   require_once "courses-api.php";
-   session_start();
+//    require_once "students-api.php";
+//    require_once "courses-api.php";
+   
    $adata =  $_REQUEST['data'];
    $action = $_REQUEST['action'];
    $meth= strtoupper($_SERVER['REQUEST_METHOD']);
-            echo $meth;
-            die;
             if ($meth == 'PUT')
                 {
                     parse_str(file_get_contents("php://input"), $_PUT);
@@ -20,12 +19,12 @@
                     }
                     $_REQUEST = array_merge($_REQUEST, $_PUT);
                 }
-   $a;
+   
    switch($action){
-       case "admin":
-       $a = new AdminsApi;
+       case "login":
+       $a = new AdminApi;
        $a = $a->login($adata);
-       echo $a->getVar('role'); 
+        echo $a->getVar('role'); 
        break;
        case "students":
        $s=new StudentsApi;

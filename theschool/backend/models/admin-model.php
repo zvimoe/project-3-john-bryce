@@ -1,11 +1,11 @@
 <?php
     
  class  AdminModel{
-    private name;
-    private role;
-    private phone;
-    private email;
-    private password;
+    private $name;
+    private $role;
+    private $phone;
+    private $email;
+    private $password;
     function __consruct($data){
 
       $this->name=$data['name'];
@@ -13,11 +13,11 @@
 
     }
     function getVar($var){
-        return $this->$var
+        return $this->$var;
     }
  
      function setVar($var,$value){
-         $this->$var=$value
+         $this->$var=$value;
     }
      
        

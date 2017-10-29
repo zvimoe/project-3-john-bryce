@@ -1,6 +1,6 @@
 <?php
  // connection to data base //
- class Conn{
+ class DAL{
         private $host = '127.0.0.1';
         private $db;
         private $user = 'root';
@@ -14,7 +14,7 @@
         ];
        
             public function __construct($db) {
-                    $this->db=$db
+                    $this->db=$db;
                     $this->dsn = "mysql:host=$this->host;dbname=$this->db;charset=$this->charset";
             }
         

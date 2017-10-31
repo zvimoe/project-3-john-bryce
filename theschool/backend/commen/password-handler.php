@@ -8,3 +8,4 @@
         return MD5($this->salt.$password);
     }
  }
+ ?>

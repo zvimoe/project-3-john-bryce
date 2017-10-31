@@ -7,7 +7,7 @@
          
   class AdminApi extends Api{
        public function login($params){
-           $a=new AdminModel($params['name'].$params['password']);
+           $a=new AdminModel($params['name'],$params['password']);
            $c=new AdminCtrl;
            $a = $c->login($a);
            return $a;

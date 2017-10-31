@@ -24,7 +24,7 @@ session_start();
        case "login":
        $a = new AdminApi;
        $a = $a->login($adata);
-        echo $a->getVar('role'); 
+       echo $a->getVar('role_id');
        break;
        case "students":
        $s=new StudentsApi;
@@ -36,4 +36,3 @@ session_start();
        break;
    }
    ?>
-    

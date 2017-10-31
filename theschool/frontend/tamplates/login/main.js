@@ -9,24 +9,31 @@ $.ajax({
           data:{name:username,
                 password:password}
         },
-    success: function(info){
-        console.log(info)
+    success: function(role){
+
+         switch(role){
+            case "1" :
+            $('body').css('background-color','red');
+            break;
+            case "2":
+            $('body').css('background-color','blue');
+            break;
+            // $.ajax('../moduls/banners/ownerbanner.html').always(function(banner){
+            //        //replacing mustaches
+            //      $('#banner').replaceWith(banner);
+            // })
+            //      $.ajax('../moduls/homepages/owner.html').always(function(hp){
+                  
+            //      $("#loginbox").replaceWith(hp);
+            // })
+           
+        }
+       
     }
 })
 }
 
-//         switch(info['role']){
-//             case 'owner':
-//             $.ajax('../moduls/banners/ownerbanner.html').always(function(banner){
-//                    //replacing mustaches
-//                  $('#banner').replaceWith(banner);
-//             })
-//                  $.ajax('../moduls/homepages/owner.html').always(function(hp){
-                  
-//                  $("#loginbox").replaceWith(hp);
-//             })
-           
-//         }
+       
               
      
       

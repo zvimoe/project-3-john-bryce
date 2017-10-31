@@ -2,24 +2,24 @@
     
  class  AdminModel{
     private $name;
-    private $role;
+    private $role_id ;
     private $phone;
     private $email;
     private $password;
-    function __consruct($data){
-
-      $this->name=$data['name'];
-      $this->password=$data['password'];
-
+    function __construct($name,$password){       
+      $this->name=$name;
+      $this->password=$password;
     }
     function getVar($var){
         return $this->$var;
+         
     }
  
      function setVar($var,$value){
          $this->$var=$value;
     }
      
-       
+    
     
 }
+?>

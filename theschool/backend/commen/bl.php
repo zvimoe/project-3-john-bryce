@@ -5,7 +5,7 @@
         public function login($name,$password,$table){
                 
 
-                  return "SELECT * FROM $table WHERE name = $name AND password = $password";
+                return "SELECT * FROM $table WHERE name = '$name' AND password = '$password'";
           }
           
 
@@ -148,18 +148,3 @@
 
  }
  ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -2,7 +2,7 @@
  abstract class Api{
   
     abstract function create($params);
-    abstract function select($params);
+    abstract function select();
     abstract function update($params);
     abstract function delete($params);
 
@@ -11,7 +11,7 @@
             case 'POST':
             return $this->create($params);
             case 'GET':
-            return $this->select($params);
+            return $this->select();
             case 'PUT':
             return $this->update($params);
             case 'DELETE':

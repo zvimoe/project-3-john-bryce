@@ -24,11 +24,13 @@ session_start();
        case "login":
        $a = new AdminApi;
        $a = $a->login($adata);
-       echo $a->getVar('role_id');
+       $permissionId = $a->getVar('role_id');
+       $_SESSION['permission'] = $permissionId;
+       echo $permissionId;
        break;
        case "students":
        $s=new StudentsApi;
-       echo $s->manager($adata,$role);
+       echo $s->manager($adata,$role,$meth);
        break;
        case "courses":
        $c=new CoursesApi;

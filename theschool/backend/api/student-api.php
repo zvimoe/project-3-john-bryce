@@ -18,10 +18,10 @@ require_once "abstract-api.php";
       }
       function select($params){
           
-        $m = new studentModel;
+        $m = new \model\student;
         $mc = new studentCtrl;
-        $allStudents=$mc->getAll($m);
-        return $allstudents;
+        $allStudents=$mc->getAll();
+         return $allStudents;
       }
       function update($params){
           $m = new studentModel();
@@ -30,7 +30,8 @@ require_once "abstract-api.php";
       }
       function delete($params){
           $m = new studentModel($params['id']);
-          $mc = new studentCtrl;
+          $mc = new 
+          studentCtrl;
           $mc->delete($m);
           return "director deleted";
       }

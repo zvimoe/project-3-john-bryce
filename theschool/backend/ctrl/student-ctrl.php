@@ -2,7 +2,7 @@
     require_once "../commen/bl.php";
     require_once "../commen/dal.php";
    
-   class StudentController{
+   class StudentCtrl{
 
         public function get($student){
            

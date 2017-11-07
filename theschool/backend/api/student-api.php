@@ -1,11 +1,11 @@
 <?php
 require_once "abstract-api.php";
-  require_once "../ctrl/sudent-ctrl.php";
-  require_once "../models/sudent-model.php";
+  require_once "../ctrl/student-ctrl.php";
+  require_once "../models/student-model.php";
          
          
   class StudentApi extends Api{
-       public function login($params){
+      
       
       function create($params){
           $m = new studentModel;
@@ -16,12 +16,12 @@ require_once "abstract-api.php";
           $mc->create($m);
           return "new student inserted";
       }
-      function select(){
+      function select($params){
           
         $m = new studentModel;
         $mc = new studentCtrl;
-        $allStudents=$mc->select($m);
-        return $allstudents
+        $allStudents=$mc->getAll($m);
+        return $allstudents;
       }
       function update($params){
           $m = new studentModel();
@@ -34,5 +34,6 @@ require_once "abstract-api.php";
           $mc->delete($m);
           return "director deleted";
       }
-    }
+    
+}
     ?>

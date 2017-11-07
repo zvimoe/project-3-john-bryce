@@ -25,7 +25,7 @@
                 return array("SELECT * FROM $table WHERE $ind__c=:ind",array("ind" => $indecator));
             
         }
-         public function ALLquerybuilder($table){
+         public function readAll($table){
 
                 return "SELECT * FROM $table";
             

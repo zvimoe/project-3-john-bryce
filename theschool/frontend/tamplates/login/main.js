@@ -16,8 +16,17 @@ $.ajax({
             $('body').css('background-color','red');
             break;
             case "2":
-            $('body').css('background-color','blue');
-            break;
+            $.ajax({
+                url: "../../../backend/api/APIT.php",
+                type: 'GET',
+                data:{action:'students',
+                      data:{id:'all'}
+                    },
+                success: function(data){
+                    console.log(data);
+                }
+            })
+               break;
             // $.ajax('../moduls/banners/ownerbanner.html').always(function(banner){
             //        //replacing mustaches
             //      $('#banner').replaceWith(banner);

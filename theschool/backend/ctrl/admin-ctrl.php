@@ -19,5 +19,6 @@
                $admin->setVar($key,$value);
             }
             return $admin;
+        }
    }
    ?>

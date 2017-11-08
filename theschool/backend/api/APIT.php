@@ -30,9 +30,9 @@ session_start();
        break;
        case "students":
        $s=new StudentApi;
-       echo "1";
+       
        $array = $s->manager('GET','2',$adata);
-       echo json_encode($array);
+       print_r($array);
        break; 
        case "courses":
        $c=new CoursesApi;

@@ -1,7 +1,7 @@
 <?php
 session_start();
    require_once "admin-api.php";
-//    require_once "students-api.php";
+   require_once "student-api.php";
 //    require_once "courses-api.php";
    
    $adata =  $_REQUEST['data'];
@@ -20,7 +20,8 @@ session_start();
                     $_REQUEST = array_merge($_REQUEST, $_PUT);
                 }
    
-   switch($action){
+  
+ switch($action){
        case "login":
        $a = new AdminApi;
        $a = $a->login($adata);
@@ -29,8 +30,9 @@ session_start();
        echo $permissionId;
        break;
        case "students":
-       $s=new StudentsApi;
-       echo $s->manager($adata,$role,$meth);
+       $s=new StudentApi;
+       $students = $s->manager($meth,$_SESSION['permission'],$adata);
+       print_r($students);
        break;
        case "courses":
        $c=new CoursesApi;

@@ -16,8 +16,9 @@ $.ajax({
             $('body').css('background-color','red');
             break;
             case "2":
+            $('#admin-tab').css('display','none')
             $.ajax({
-                url: "../../../backend/api/APIT.php",
+                url: "../../../backend/api/API.php",
                 type: 'GET',
                 data:{action:'students',
                       data:{id:'all'}

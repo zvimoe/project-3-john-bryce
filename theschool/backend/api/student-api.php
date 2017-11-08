@@ -8,11 +8,11 @@ require_once "abstract-api.php";
       
       
       function create($params){
-          $m = new studentModel;
+        $m = new \model\student;
           foreach($params as $key=>$value){
               $m->setVar($key,$value);
           }
-          $mc = new AdminCtrl;
+          $mc = new studentCtrl;
           $mc->create($m);
           return "new student inserted";
       }
@@ -24,14 +24,13 @@ require_once "abstract-api.php";
          return $allStudents;
       }
       function update($params){
-          $m = new studentModel();
-          $mc = new studentCtrl;
+        $m = new \model\student;
+        $mc = new studentCtrl;
           return $mc->upadte($m);
       }
       function delete($params){
-          $m = new studentModel($params['id']);
-          $mc = new 
-          studentCtrl;
+        $m = new \model\student;
+        $mc = new studentCtrl;
           $mc->delete($m);
           return "director deleted";
       }

@@ -32,7 +32,7 @@ session_start();
        case "students":
        $s=new StudentApi;
        $students = $s->manager($meth,$_SESSION['permission'],$adata);
-       print_r($students);
+       echo json_encode($students);
        break;
        case "courses":
        $c=new CoursesApi;

@@ -13,16 +13,3 @@ button {
   position: relative;
   left: 96px;
 }
-a {
-  display: inline-block;
-  border-left-color: black;
-  font-family: Arial, Helvetica, sans-serif;
-  position: relative;
-  top: 11px;
-  text-decoration: none;
-  font-size: 30px;
-}
-#logout{
-  float:right;
-}
-

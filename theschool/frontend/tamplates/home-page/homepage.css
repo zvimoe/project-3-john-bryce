@@ -1,0 +1,32 @@
+.side-lists {
+  float: left;
+  height: 700px;
+  margin: 100px 2%;
+  overflow: auto;
+  overflow-x: hidden;
+}
+.list {
+  float: left;
+  height: 700px;
+  margin: 100px 2%;
+  overflow: auto;
+  overflow-x: hidden;
+  width: 30%;
+  background-color: lightgray;
+}
+.info {
+  float: left;
+  height: 700px;
+  margin: 100px 2%;
+  overflow: auto;
+  overflow-x: hidden;
+  width: 60%;
+  background-color: lightcyan;
+}
+a {
+  display: inline-block;
+  border-left-color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
+  font-size: 30px;
+}

@@ -31,7 +31,7 @@
             
         }
         
-        public function Uquerybuilder($params,$indc,$table){
+        public function Uquerybuilder($params,$indColum,$table){
                     $indecator=array_shift($params);
                     $query = "UPDATE $table SET";
                     $prep = array();
@@ -44,11 +44,11 @@
                     
                     $query = substr($query, 0, -1).' '; // remove last , and add a ;
                 
-                    return (array($query."WHERE $indc=$indecator",$prep));
+                    return (array($query."WHERE $indColum=$indecator",$prep));
         }
-        public function Dquerybuilder($indecator,$indc,$table){
+        public function Dquerybuilder($indecator,$indColum,$table){
         
-                return array("DELETE FROM $table WHERE $indc =:$indc",[$indc=>$indecator]);
+                return array("DELETE FROM $table WHERE $indColum =:$indc",[$indc=>$indecator]);
         }
   
     //TO DO valildations

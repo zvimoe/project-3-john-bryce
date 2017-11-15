@@ -1,6 +1,7 @@
 <?php
     
  class  AdminModel{
+    private $id;
     private $name;
     private $role_id ;
     private $phone;

@@ -1,6 +1,7 @@
 <?php
     require_once "../commen/bl.php";
     require_once "../commen/dal.php";
+    require_once "../models/student-model.php";
    
    class StudentCtrl{
 
@@ -24,7 +25,15 @@
             $con = new DAL('theschool');
             $info = $con->readAlone($quary);
             $stmt = $info->fetchAll();
-            return $stmt;
+            $allstudents=array();
+            foreach($stmt as $row){
+                $st=new \model\student;
+                foreach($row as $key=>$value){
+                    $st->setvar($key,$value);
+                }
+                array_push($allstudents,$st);
+          }
+           return $allstudents ;
         }
    }
    ?>

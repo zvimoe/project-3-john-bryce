@@ -2,7 +2,7 @@
 session_start();
    require_once "admin-api.php";
    require_once "student-api.php";
-//    require_once "courses-api.php";
+   require_once "courses-api.php";
    
    $adata =  $_REQUEST['data'];
    $action = $_REQUEST['action'];

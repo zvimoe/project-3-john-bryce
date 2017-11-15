@@ -3,7 +3,7 @@ function login(){
 let username= $("#username").val()
 let password= $("#password").val()
 $.ajax({
-    url: "../../../backend/api/API.php",
+    url: "../backend/api/API.php",
     type: 'GET',
     data:{action:'login',
           data:{name:username,
@@ -18,7 +18,7 @@ $.ajax({
             case "2":
             $('#admin-tab').css('display','none')
             $.ajax({
-                url: "../../../backend/api/API.php",
+                url: "../backend/api/API.php",
                 type: 'GET',
                 data:{action:'students',
                       data:{id:'all'}
@@ -26,7 +26,7 @@ $.ajax({
                 success: function(data){
                     data=JSON.parse(data);
                     console.log(data.length)
-                    $.ajax('../home-page/homepage.html')
+                    $.ajax('tamplates/home-page/homepage.html')
                     .always(function(tamp) {
                         var c = tamp;
                         c = c.replace("{{list-title}}", 'students');

@@ -30,7 +30,10 @@ require_once "abstract-api.php";
       }
       function delete($params){
         $m = new \model\Course;
-        $mc = new CtrlCourses;
+         foreach($params as $key=>$value){
+              $m->setVar($key,$value);
+          }
+          $mc = new CtrlCourse;
           $mc->delete($m);
           return "course deleted";
       }

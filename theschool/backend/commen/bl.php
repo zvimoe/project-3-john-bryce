@@ -46,9 +46,9 @@
                 
                     return (array($query."WHERE $indColum=$indecator",$prep));
         }
-        public function Dquerybuilder($indecator,$indColum,$table){
-        
-                return array("DELETE FROM $table WHERE $indColum =:$indc",[$indc=>$indecator]);
+        public function delete($indecator,$indColum,$table){
+             
+               return "DELETE FROM $table WHERE $indColum =$indecator";
         }
   
     //TO DO valildations

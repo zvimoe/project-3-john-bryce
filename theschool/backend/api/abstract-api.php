@@ -14,8 +14,14 @@
             return $this->select($params);
             case 'PUT':
             return $this->update($params);
-            case 'DELETE':
-            return $this->delete($params);
+            case 'DELETE': 
+            if(gettype($params['id'])!='array()'){
+                return $this->delete($params);
+            }
+            else{
+                return $this->deleteAll($params);
+            }
+               
         }
     }
        

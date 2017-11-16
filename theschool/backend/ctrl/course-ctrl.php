@@ -9,8 +9,8 @@
                $data=$course->getAll();
                $bl=new BLL;
                $query=$bl->create($data,'course');
-               $dl=new DAL('theschool');
-               $dl->set($query[0],$query[1]);
+               $con=new DAL('theschool');
+               $con->set($query[0],$query[1]);
        }
 
         public function get($course){
@@ -43,10 +43,12 @@
           }
            return $allcourses ;
         }
-        public function upadate($course){
+        public function delete($course){
         $courseId = $course->getVar('id');
         $bl = new BLL;
-        $quary = $bl->delete($courseId,'id','course');
+        $query = $bl->delete($courseId,'id','course');
         $con = new DAL('theschool');
+        $con->readAlone($query);
+
         }
    }

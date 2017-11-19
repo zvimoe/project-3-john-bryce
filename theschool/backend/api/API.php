@@ -27,13 +27,13 @@ session_start();
        $a = $a->login($adata);
        $permissionId = $a->getVar('role_id');
        $_SESSION['permission'] = $permissionId;
-       echo $permissionId;
+       echo json_encode($permissionId);
        break;
        case "students":
        $s=new StudentApi;
        echo $_SESSION['permission'];
        $students = $s->manager($meth,$_SESSION['permission'],$adata);
-       print_r($students);
+       echo json_encode($students);
        break;
        case "courses":
        $c=new CoursesApi;

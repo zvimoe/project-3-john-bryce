@@ -10,7 +10,6 @@ $.ajax({
                 password:password}
         },
     success: function(role){
-
          switch(role){
             case "1" :
             $('body').css('background-color','red');

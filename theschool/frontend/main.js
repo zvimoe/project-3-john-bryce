@@ -1,8 +1,11 @@
 'use strict';
-$.ajax({
-    url: 'tamplates/login/login.html',
-    dataType: 'html',
-    success: function(data){
-            $('main').append(data)
-        }
+var app={
+    loadPage: function(url,container){
+    $.ajax(url)
+    .always(function(data){
+        $(container).append(data);
+      
     });
+},
+}
+app.loadPage('tamplates/login/login.html','main')

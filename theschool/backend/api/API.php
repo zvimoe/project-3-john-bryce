@@ -2,7 +2,7 @@
 session_start();
    require_once "admin-api.php";
    require_once "student-api.php";
-   require_once "courses-api.php";
+   require_once "course-api.php";
    
    $adata =  $_REQUEST['data'];
    $action = $_REQUEST['action'];
@@ -31,8 +31,9 @@ session_start();
        break;
        case "students":
        $s=new StudentApi;
+       echo $_SESSION['permission'];
        $students = $s->manager($meth,$_SESSION['permission'],$adata);
-       echo json_encode($students);
+       print_r($students);
        break;
        case "courses":
        $c=new CoursesApi;

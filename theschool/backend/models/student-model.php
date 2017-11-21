@@ -16,6 +16,23 @@
        public function setVar($var,$value){
 
          $this->$var=$value;
-       }      
+
+        
+       }  
+       public function getAll(){
+       
+        $allstudents =  array(
+            'id'=>$this->id,
+            'name'=>$this->name,
+            'phone'=>$this->phone,
+            'email'=>$this->email,
+            'password'=>$this->password,
+            'courses'=>$this->courses=[]
+        );
+        return $allstudents;
+
+
+
+       }
   }
   ?>

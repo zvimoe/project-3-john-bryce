@@ -41,7 +41,7 @@
                 margin:auto;
                 width:50%;
                 float:right;
-                overflow: scroll
+                
                 
             }
             #main{
@@ -85,15 +85,16 @@
 
     <section id="main">
             <h3>add new adnim</h3>
+            <form enctype="multipart/form-data" id="createForm">
             <input type="number" name="phone" placeholder="phone">
             <input type="text" name="email" placeholder="email">
             <input type="text" name="name" placeholder="name">
             <input type="password" name="password" placeholder="password">
             <input type="file" id="picture" name="picture" placeholder="picture">
             <button>submit</button>
+            </form>
     </section>
 </main>
 <script src="file-upload.js"></script>
-<script src="../../jQuery-File-Upload-plugin/js/jquery.fileupload.js"></script>
 </body>
 </html>

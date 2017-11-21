@@ -24,29 +24,28 @@ $.ajax({
                     },
                 success: function(data){
                     data=JSON.parse(data);
-                    console.log(data.length)
-                    $.ajax('tamplates/home-page/homepagetest.html')
-                    .always(function(tamp) {
-                        var c = tamp;
-                        c = c.replace("{{list-title}}", 'students');
-                        $('main').empty();
-                        $('main').append(c);
+                    changeTemp('main','tamplates/home-page/homepagetest.html')
                         for (let i=0; i < data.length; i++) {
                             $('#side ul').html('<li>'+data[i].name+'</li>')
-                         console.log(data[i].name)
-                      //  $("div.list").append('<div onclick ="function getstudent(' + data[i].name + ')" class="list-group-item">'+ data[i].name+'</div>')
-            
-                        }
-                      
-            
-                    });
-                }
-            })
-               break;
+          //  $("div.list").append('<div onclick ="function getstudent(' + data[i].name + ')" class="list-group-item">'+ data[i].name+'</div>')
         
-           
-        }
-       
+                        }
+                    }
+                      
+                    
+                    });
+                    break; 
+                }
+            }   
+        })
     }
-})
-}
+       
+
+function changeTemp(container,url){
+    $.ajax(url)
+    .always(function(temp) {
+        var c = temp;
+        $(container).empty();
+        $(container).append(c);
+        });
+    }

@@ -1,4 +1,4 @@
 <?php
     
-echo $_REQUEST["file"];
+print_r($_FILES["picture"]);
 ?> 

@@ -21,7 +21,13 @@ require_once "abstract-api.php";
         $m = new \model\student;
         $mc = new studentCtrl;
         $allStudents=$mc->getAll();
-         return $allStudents;
+        $students=array();
+        foreach($allStudents as $student){
+         $s= $student->getAll();
+         array_push($students,$s);
+
+        }
+         echo json_encode($students);
       }
       function update($params){
         $m = new \model\student;

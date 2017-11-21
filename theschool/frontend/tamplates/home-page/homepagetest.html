@@ -26,9 +26,23 @@
                 width:30%;
                 height: 240px;
                 position:absolute;
-                top:50px;
+                top:90px;
                 left:1%;
+                border:solid
                
+            }
+            #side p{
+                
+                text-decoration-line: underline;
+            
+            }
+            #side ul{
+                border:solid;
+                margin:auto;
+                width:50%;
+                float:right;
+                overflow: scroll
+                
             }
             #main{
                 width:65%;
@@ -53,13 +67,33 @@
 <body>
 <main>
     <nav>
-        <img src="../nav-bar/js.jpg" width=20%" height="50px">
+        <img src="../nav-bar/js.jpg" width="20%" height="50px">
     </nav>
     <section id="side">
+        <ul>
+            <p>students</p>
+         
+          
+        </ul>
+        <ul>
+                <p>courses</p>
+             
         
+            </ul>
+  
     </section>
-    <section id="main"></section>
-</main>
 
+    <section id="main">
+            <h3>add new adnim</h3>
+            <input type="number" name="phone" placeholder="phone">
+            <input type="text" name="email" placeholder="email">
+            <input type="text" name="name" placeholder="name">
+            <input type="password" name="password" placeholder="password">
+            <input type="file" id="picture" name="picture" placeholder="picture">
+            <button>submit</button>
+    </section>
+</main>
+<script src="file-upload.js"></script>
+<script src="../../jQuery-File-Upload-plugin/js/jquery.fileupload.js"></script>
 </body>
 </html>

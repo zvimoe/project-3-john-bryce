@@ -15,9 +15,9 @@
                     foreach($params as $k => $v ) { 
                         $prep[':'.$k] = $v;
                     }
-                return array("INSERT INTO $table ( " . implode(', ',array_keys($params)) .
+               return array("INSERT INTO $table ( " . implode(', ',array_keys($params)) .
                 ") VALUES (" . implode(', ',array_keys($prep)) . ")",$prep);
-
+                   
 
         }
         public function Read($indecator,$ind__c,$table){

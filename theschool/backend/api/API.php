@@ -2,9 +2,15 @@
 session_start();
    require_once "admin-api.php";
    require_once "student-api.php";
-  // require_once "course-api.php";
+   require_once "course-api.php";
    
-   $adata =  $_REQUEST['data'];
+   if(isset($_REQUEST['data'])){
+    $adata =  $_REQUEST['data'];
+   }
+   else if(isset($_FILES["picture"])){
+    $adata=$_REQUEST; 
+    $adata['image']="../frontend/pictures/".$_FILES["picture"]["name"];
+   }
    $action = $_REQUEST['action'];
    $meth= strtoupper($_SERVER['REQUEST_METHOD']);
             if ($meth == 'PUT')
@@ -37,8 +43,8 @@ session_start();
        str_replace($response,'null', '');
        break;
        case "courses":
-       $c=new CoursesApi;
-       echo $c->manager($adata,$role);
+       $c=new CourseApi;
+       echo $c->manager($meth,$adata);
        break;
    }
    ?>

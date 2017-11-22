@@ -6,7 +6,7 @@
     abstract function update($params);
     abstract function delete($params);
 
-    public function manager($func,$role,$params){
+    public function manager($func,$params){
         switch($func){
             case 'POST':
             return $this->create($params);

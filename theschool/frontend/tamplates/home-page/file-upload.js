@@ -4,8 +4,10 @@ $( "button" ).click(function( event ) {
     $( "<div>" )
     var form = $('form')[0];
     var formData = new FormData(form);
+    formData.append('action','courses');
+    
 $.ajax({
-    url: "../../../backend/api/file-upload.php",
+    url: "../../../backend/api/api.php",
     //enctype: 'multipart/form-data',
     cache: false,
     contentType: false,

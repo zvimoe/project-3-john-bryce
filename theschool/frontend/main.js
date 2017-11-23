@@ -3,7 +3,7 @@ var app={
     loadPage: function(url,container){
     $.ajax(url)
     .always(function(data){
-        $(container).append(data);
+        $(container).html(data);
       
     });
 },

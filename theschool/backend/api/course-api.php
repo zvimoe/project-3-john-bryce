@@ -20,9 +20,14 @@ require_once "abstract-api.php";
           
         $m = new \model\Course;
         $mc = new CtrlCourse;
-        $allStudents=$mc->getAll();
-         return $allStudents;
-      }
+        $allCourses=$mc->getAll();
+        $courses=array();
+            foreach($allCourses as $course){
+            $c= $course->getAll();
+            array_push($courses,$c);
+            }
+        return $courses;
+      } 
       function update($params){
         $m = new \model\Course;
         $mc = new CtrlCourse;

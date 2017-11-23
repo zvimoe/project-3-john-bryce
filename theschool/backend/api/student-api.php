@@ -27,7 +27,7 @@ require_once "abstract-api.php";
          array_push($students,$s);
 
         }
-         echo json_encode($students);
+        return $students;
       }
       function update($params){
         $m = new \model\student;

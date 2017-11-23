@@ -41,10 +41,15 @@ session_start();
        $students = $s->manager($meth,$_SESSION['permission'],$adata);
        $response=json_encode($students);
        str_replace($response,'null', '');
+       echo $response;
        break;
        case "courses":
        $c=new CourseApi;
-       echo $c->manager($meth,$adata);
+       $courses= $c->manager($meth,$adata);
+       $response=json_encode($courses);
+      str_replace($response,'null', '');
+      echo $response;
+
        break;
    }
    ?>

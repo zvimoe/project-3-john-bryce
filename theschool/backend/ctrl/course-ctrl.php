@@ -35,7 +35,7 @@
             $stmt = $info->fetchAll();
             $allcourses=array();
             foreach($stmt as $row){
-                $st=new \model\student;
+                $st=new \model\course;
                 foreach($row as $key=>$value){
                     $st->setvar($key,$value);
                 }

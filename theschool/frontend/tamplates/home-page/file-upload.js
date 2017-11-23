@@ -1,7 +1,6 @@
 'use strict'
 $( "button" ).click(function( event ) {
     event.preventDefault();
-    $( "<div>" )
     var form = $('form')[0];
     var formData = new FormData(form);
     formData.append('action','courses');

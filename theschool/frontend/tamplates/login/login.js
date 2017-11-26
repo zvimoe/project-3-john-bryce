@@ -21,8 +21,9 @@ function login() {
 
 function showStudentById(id){
      getStatmentById('students',id).done(function(student){
-         getStatmentById('students_courses',data={id:id,returnColum:'c_id'}).done(function(studentCourses){
-            app.getTemp(studentInfo.html).done(function(temp){
+         let data={id:id,returnColum:'c_id'}
+         getStatmentById('students_courses',data).done(function(studentCourses){
+            app.getTemp('tamplates/view/studentInfo.html').done(function(temp){
                 $("#main").append(temp,function(){
                     $("#main").replace("{{name}}", student.name);
                     $("#main").replace("{{id}}", student.id);
@@ -42,8 +43,9 @@ function showStudentById(id){
     }     // TODO
     function showCourseById(id){
         getStatmentById('courses',id).done(function(student){
-            getStatmentById('students_courses',data={id:id,returnColum:'s_id'}).done(function(studentCourses){
-                app.getTemp(studentInfo.html).done(function(temp){
+            let data={id:id,returnColum:'s_id'}
+            getStatmentById('students_courses',data).done(function(studentCourses){
+                app.getTemp('courseInfo.html').done(function(temp){
                    $("#main").append(temp,function(){
                        $("#main").replace("{{name}}", student.name);
                        $("#main").replace("{{id}}", student.id);
@@ -85,34 +87,34 @@ function loginAjax(table,data){
             });
 }
 function loadSchool(){
-    GetList('students').done(function (students) {
+    app. getStatmentById('students','all').done(function (students) {
         students = JSON.parse(students);
-        GetList('courses').done(function(courses){
+        app. getStatmentById('courses','all').done(function(courses){
             courses = JSON.parse(courses);
             app.getTemp('tamplates/home-page/homepagetest.html').done(function (temp) {
                 $('main').empty();
                 $('main').html(temp)
                 for (let i = 0; i < students.length; i++) {
-                    $('#here').append("<li onclick='showStudentById("+students[i].id+")'>" + students[i].name + "</li>")
+                    $('#here').append("<li><a onclick='showStudentById("+students[i].id+")' href='#'>" + students[i].name + "</a></li>")
                 }
                 for (let i = 0; i < courses.length; i++) {
-                    $('#there').append("<li onclick=' showCourseById("+courses[i].id+")'>" + courses[i].name + "</li>")
+                    $('#there').append("<li><a onclick=' showCourseById("+courses[i].id+")'>" + courses[i].name + "</a></li>")
                 }
-                $("#main").append(temp,function(){
-                    $("#main").replace("{{name}}", student.name);
-                    $("#main").replace("{{id}}", student.id);
-                    $("#main").replace("{{email}}", student.email);
-                    $("#main").replace("{{phone}}", student.phone);
-                    $("#main").replace("{{image}}", student.image);
+                // $("#main").append(temp,function(){
+                //     $("#main").replace("{{name}}", student.name);
+                //     $("#main").replace("{{id}}", student.id);
+                //     $("#main").replace("{{email}}", student.email);
+                //     $("#main").replace("{{phone}}", student.phone);
+                //     $("#main").replace("{{image}}", student.image);
 
-                })
+                // })
 
             })
         })
     });
 }
 function loadAdmins(){
-    GetList('admins').done(function (admins) {
+    app. getStatmentById('admins','all').done(function (admins) {
         admins = JSON.parse(admins);
         app.getTemp('tamplates/home-page/homepagetest.html').done(function (temp) {
                 $('main').empty();

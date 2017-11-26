@@ -1,11 +1,35 @@
 'use strict';
 var app={
-    loadPage: function(url,container){
-    $.ajax(url)
-    .always(function(data){
-        $(container).html(data);
-      
-    });
-},
+    getTemp: function(url){
+        return $.ajax(url)
+    },
+    getStatmentById:function(table,id){
+        return $.ajax({
+            url: "../backend/api/API.php",
+            type: 'GET',
+            data: {
+                action: table,
+                data: { id: id }
+            },
+            data: {
+                action:table,
+                data: { id: 'all' }
+            },
+        });
+    },
+    loginAjax:function(table,data){
+        return $.ajax({
+                    url: "../backend/api/API.php",
+                    type: 'GET',
+                    data: {
+                        action:table,
+                        data:data
+                    },
+                });
+    }
 }
-app.loadPage('tamplates/login/login.html','main')
+
+app.getTemp('tamplates/login/login.html').done(function(data){
+    $('main').html(data);
+  
+});

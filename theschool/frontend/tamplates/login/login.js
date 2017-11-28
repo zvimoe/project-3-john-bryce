@@ -5,7 +5,7 @@ function login() {
     let data = {   name: username,
                   password: password
                 }
-    loginAjax('login',data).done(function(role,admin){
+    app.loginAjax('login',data).done(function(role,admin){
             switch (role) {
                 case "1":
                    loadAdmins()
@@ -20,72 +20,52 @@ function login() {
     }
 
 function showStudentById(id){
-     getStatmentById('students',id).done(function(student){
+     app.getStatmentById('students',id).done(function(student){
          let data={id:id,returnColum:'c_id'}
-         getStatmentById('students_courses',data).done(function(studentCourses){
+         app.getStatmentById('students_courses',data).done(function(studentCourses){
+             student = JSON.parse(student);
+            // studentCourses = JSON.parse(studentCourses);
             app.getTemp('tamplates/view/studentInfo.html').done(function(temp){
-                $("#main").append(temp,function(){
-                    $("#main").replace("{{name}}", student.name);
-                    $("#main").replace("{{id}}", student.id);
-                    $("#main").replace("{{email}}", student.email);
-                    $("#main").replace("{{phone}}", student.phone);
-                    $("#main").replace("{{image}}", student.image);
+                 temp =  temp.replace("{{name}}", student.name);
+                 temp =  temp.replace("{{id}}", student.id);
+                 temp =  temp.replace("{{email}}", student.email);
+                 temp =  temp.replace("{{phone}}", student.phone);
+                 temp =  temp.replace("{{image}}", student.image);
+                    $('#main').empty()
+                    $('#main').append(temp);
 
-                })
+            })
             
-           })
        })
 
     })
 }
+function showCourseById(id){
+    app.getStatmentById('courses',id).done(function(student){
+        let data={id:id,returnColum:'s_id'}
+        app.getStatmentById('students_courses',data).done(function(studentCourses){
+            student = JSON.parse(student);
+           // studentCourses = JSON.parse(studentCourses);
+           app.getTemp('tamplates/view/coursesInfo.html').done(function(temp){
+                temp =  temp.replace("{{name}}", student.name);
+                temp =  temp.replace("{{id}}", student.id);
+                temp =  temp.replace("{{description}}", student.description);;
+                temp =  temp.replace("{{image}}", student.image);
+                   $('#main').empty()
+                   $('#main').append(temp);
+
+           })
+           
+      })
+
+   })
+}
+
     function showAdminById(id){
 
     }     // TODO
-    function showCourseById(id){
-        getStatmentById('courses',id).done(function(student){
-            let data={id:id,returnColum:'s_id'}
-            getStatmentById('students_courses',data).done(function(studentCourses){
-                app.getTemp('courseInfo.html').done(function(temp){
-                   $("#main").append(temp,function(){
-                       $("#main").replace("{{name}}", student.name);
-                       $("#main").replace("{{id}}", student.id);
-                       $("#main").replace("{{description}}", student.email);
-                       $("#main").replace("{{image}}", student.image);
-   
-                   })
-               
-              })
-          })
-   
-       })
-    }    
 
- // ajax functions
 
-function getStatmentById(table,id){
-    return $.ajax({
-        url: "../backend/api/API.php",
-        type: 'GET',
-        data: {
-            action: table,
-            data: { id: id }
-        },
-        data: {
-            action:table,
-            data: { id: 'all' }
-        },
-    });
-}
-function loginAjax(table,data){
-    return $.ajax({
-                url: "../backend/api/API.php",
-                type: 'GET',
-                data: {
-                    action:table,
-                    data:data
-                },
-            });
-}
 function loadSchool(){
     app. getStatmentById('students','all').done(function (students) {
         students = JSON.parse(students);
@@ -95,26 +75,26 @@ function loadSchool(){
                 $('main').empty();
                 $('main').html(temp)
                 for (let i = 0; i < students.length; i++) {
-                    $('#here').append("<li><a onclick='showStudentById("+students[i].id+")' href='#'>" + students[i].name + "</a></li>")
-                }
+                            $( "<li/>", {
+                                    'class':'btn btn-block',
+                                    text: students[i].name,
+                                    click: function() {
+                                        showStudentById(students[i].id)
+                                    }
+                            })
+                                .appendTo( "#here" );
+                        
+                        }
                 for (let i = 0; i < courses.length; i++) {
                     $('#there').append("<li><a onclick=' showCourseById("+courses[i].id+")'>" + courses[i].name + "</a></li>")
                 }
-                // $("#main").append(temp,function(){
-                //     $("#main").replace("{{name}}", student.name);
-                //     $("#main").replace("{{id}}", student.id);
-                //     $("#main").replace("{{email}}", student.email);
-                //     $("#main").replace("{{phone}}", student.phone);
-                //     $("#main").replace("{{image}}", student.image);
-
-                // })
 
             })
         })
     });
 }
 function loadAdmins(){
-    app. getStatmentById('admins','all').done(function (admins) {
+    app.getStatmentById('admins','all').done(function (admins) {
         admins = JSON.parse(admins);
         app.getTemp('tamplates/home-page/homepagetest.html').done(function (temp) {
                 $('main').empty();

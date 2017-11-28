@@ -19,7 +19,7 @@
 
         
        }  
-       public function getAll(){
+       public function getAllParams(){
        
         $allstudents =  array(
             'id'=>$this->id,

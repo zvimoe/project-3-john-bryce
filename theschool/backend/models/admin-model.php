@@ -11,15 +11,27 @@
       $this->name=$name;
       $this->password=$password;
     }
-    function getVar($var){
+    public function getVar($var){
         return $this->$var;
          
     }
  
-     function setVar($var,$value){
+    public function setVar($var,$value){
          $this->$var=$value;
     }
-     
+    public function getAllParams(){
+        
+         $allstudents =  array(
+             'id'=>$this->id,
+             'name'=>$this->name,
+             'phone'=>$this->phone,
+             'email'=>$this->email,
+             'password'=>$this->password,
+             'courses'=>$this->courses=[]
+         );
+         return $allstudents;
+ 
+        }
     
     
 }

@@ -6,7 +6,7 @@ $( "button" ).click(function( event ) {
     formData.append('action','courses');
     
 $.ajax({
-    url: "../../../backend/api/api.php",
+    url: "../../../backend/api/file-upload.php",
     //enctype: 'multipart/form-data',
     cache: false,
     contentType: false,

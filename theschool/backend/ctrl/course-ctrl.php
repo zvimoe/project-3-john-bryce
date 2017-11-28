@@ -13,17 +13,15 @@
                $con->set($query[0],$query[1]);
        }
 
-        public function get($course){
+        public function get($course,$courseId ){
            
-            $courseId = $course->getVar('id');
             $bl = new BLL;
             $quary = $bl->read($courseId,'id','course');
             $con = new DAL('theschool');
-            $info = $con->read($quary);
-            $stmt = $info->fetch();
-            foreach($stmt as $key=>$value){
+            $info = $con->read($quary[0],$quary[1]);
+            foreach($info as $key=>$value){
   
-               $admin->setVar($key,$value);
+               $course->setVar($key,$value);
             }
             return $course;
         }

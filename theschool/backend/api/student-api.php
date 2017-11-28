@@ -20,14 +20,23 @@ require_once "abstract-api.php";
           
         $m = new \model\student;
         $mc = new studentCtrl;
-        $allStudents=$mc->getAll();
-        $students=array();
-        foreach($allStudents as $student){
-         $s= $student->getAll();
-         array_push($students,$s);
-
+       
+        if($params['id']=='all'){ 
+            $allStudents=$mc->getAll();
+            $students=array();
+            foreach($allStudents as $student){
+            $s= $student->getAllParams();
+            array_push($students,$s);
+            }
+            $s=json_encode($students);
+            str_replace($s,'null', '');
+            return $s;
+          }
+        else{
+            $student=$mc->get($m,$params['id']);
+            $s=$student->getAllParams();
+            return json_encode($s);
         }
-        return $students;
       }
       function update($params){
         $m = new \model\student;

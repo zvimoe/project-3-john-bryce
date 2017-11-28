@@ -16,7 +16,7 @@
 
          $this->$var=$value;
        }     
-       public function getAll(){
+       public function getAllParams(){
           
         $params=[
           'id' =>$this->id,

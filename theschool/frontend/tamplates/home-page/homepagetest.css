@@ -1,7 +1,6 @@
 main{
     height: 350px;
     width:70%;
-    border: solid;
     margin: auto;
     box-sizing: border-box;
     position:absolute;
@@ -16,7 +15,7 @@ main{
     position:absolute;
     top:90px;
     left:1%;
-    border:solid
+    
    
 }
 #side p{
@@ -25,7 +24,7 @@ main{
 
 }
 #side ul{
-    border:solid;
+   
     margin:auto;
     width:50%;
     float:right;
@@ -34,7 +33,7 @@ main{
 }
 #main{
     width:65%;
-    border:solid;
+   
     height: 240px;
     position:absolute;
     top:90px;

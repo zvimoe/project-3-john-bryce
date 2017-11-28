@@ -17,16 +17,25 @@ require_once "abstract-api.php";
           return "new course inserted";
       }
       function select($params){
-          
+          if($params)
         $m = new \model\Course;
         $mc = new CtrlCourse;
-        $allCourses=$mc->getAll();
-        $courses=array();
-            foreach($allCourses as $course){
-            $c= $course->getAll();
-            array_push($courses,$c);
-            }
-        return $courses;
+        if($params['id']=='all'){
+                $allCourses=$mc->getAll();
+                $courses=array();
+                    foreach($allCourses as $course){
+                    $c= $course->getAllParams();
+                    array_push($courses,$c);
+                    }
+                    $c=json_encode($courses);
+                    str_replace($c,'null', '');
+                    return $c;
+                }
+        else{
+            $course=$mc->get($m,$params['id']);
+            $c=$course->getAllParams();
+            return json_encode($c);
+        }
       } 
       function update($params){
         $m = new \model\Course;

@@ -38,18 +38,13 @@ session_start();
        case "students":
        $s=new StudentApi;
       // echo $_SESSION['permission'];
-       $students = $s->manager($meth,$_SESSION['permission'],$adata);
-       $response=json_encode($students);
-       str_replace($response,'null', '');
-       echo $response;
+       $students = $s->manager($meth,$adata);
+       echo $students;
        break;
        case "courses":
        $c=new CourseApi;
        $courses= $c->manager($meth,$adata);
-       $response=json_encode($courses);
-      str_replace($response,'null', '');
-      echo $response;
-
+       echo $courses;
        break;
    }
    ?>

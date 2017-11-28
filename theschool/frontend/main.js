@@ -11,10 +11,7 @@ var app={
                 action: table,
                 data: { id: id }
             },
-            data: {
-                action:table,
-                data: { id: 'all' }
-            },
+           
         });
     },
     loginAjax:function(table,data){

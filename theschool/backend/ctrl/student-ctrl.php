@@ -5,17 +5,15 @@
    
    class StudentCtrl{
 
-        public function get($student){
-           
-            $studentId = $student->getVar('id');
+        public function get($student,$studentId){
+
             $bl = new BLL;
             $quary = $bl->read($studentId,'id','students');
             $con = new DAL('theschool');
-            $info = $con->read($quary);
-            $stmt = $info->fetch();
-            foreach($stmt as $key=>$value){
+            $info = $con->read($quary[0],$quary[1]);
+            foreach($info as $key=>$value){
   
-               $admin->setVar($key,$value);
+               $student->setVar($key,$value);
             }
             return $student;
         }

@@ -21,7 +21,7 @@
 
         }
         public function Read($indecator,$ind__c,$table){
-
+                  
                 return array("SELECT * FROM $table WHERE $ind__c=:ind",array("ind" => $indecator));
             
         }

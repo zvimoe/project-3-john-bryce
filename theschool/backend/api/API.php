@@ -3,30 +3,25 @@ session_start();
    require_once "admin-api.php";
    require_once "student-api.php";
    require_once "course-api.php";
-   
+
+    $meth= strtoupper($_SERVER['REQUEST_METHOD']);
+
+   if($meth==  'PUT' || $meth == 'DELETE') {
+    parse_str(file_get_contents("php://input"),$post_vars);
+    $action = $post_vars['action'];
+    $adata = $post_vars['data']; 
+   }
+
    if(isset($_REQUEST['data'])){
     $adata =  $_REQUEST['data'];
+    $action = $_REQUEST['action'];
    }
    else if(isset($_FILES["picture"])){
     $adata=$_REQUEST; 
-    $adata['image']="../frontend/pictures/".$_FILES["picture"]["name"];
-   }
-   $action = $_REQUEST['action'];
-   $meth= strtoupper($_SERVER['REQUEST_METHOD']);
-            if ($meth == 'PUT')
-                {
-                    parse_str(file_get_contents("php://input"), $_PUT);
-
-                    foreach ($_PUT as $key => $value)
-                    {
-                        unset($_PUT[$key]);
-
-                        $_PUT[str_replace('amp;', '', $key)] = $value;
-                    }
-                    $_REQUEST = array_merge($_REQUEST, $_PUT);
-                }
+    $adata['image'] = "../frontend/pictures/".$_FILES["picture"]["name"];
+   };
+ 
    
-  
  switch($action){
        case "login":
        $a = new AdminApi;

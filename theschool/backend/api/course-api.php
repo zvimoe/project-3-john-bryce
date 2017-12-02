@@ -42,13 +42,9 @@ require_once "abstract-api.php";
         $mc = new CtrlCourse;
           return $mc->upadte($m);
       }
-      function delete($params){
-        $m = new \model\Course;
-         foreach($params as $key=>$value){
-              $m->setVar($key,$value);
-          }
+      function delete($id){      
           $mc = new CtrlCourse;
-          $mc->delete($m);
+          $mc->delete($id);
           return "course deleted";
       }
     

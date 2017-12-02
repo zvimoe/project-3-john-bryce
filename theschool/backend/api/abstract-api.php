@@ -15,7 +15,7 @@
             case 'PUT':
             return $this->update($params);
             case 'DELETE': 
-            if(gettype($params['id'])!='array()'){
+            if(gettype($params)!='array()'){
                 return $this->delete($params);
             }
             else{

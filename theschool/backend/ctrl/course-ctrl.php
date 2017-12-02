@@ -41,8 +41,7 @@
           }
            return $allcourses ;
         }
-        public function delete($course){
-        $courseId = $course->getVar('id');
+        public function delete($courseId){
         $bl = new BLL;
         $query = $bl->delete($courseId,'id','course');
         $con = new DAL('theschool');

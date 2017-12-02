@@ -23,10 +23,23 @@ var app={
                         data:data
                     },
                 });
+    },
+    deleteById:function(table,id){
+        console.log(table)
+        return $.ajax({
+            url: "../backend/api/API.php",
+            type:"DELETE",
+            data: {
+                action:table,
+                data:id
+            },
+        });
+        
     }
 }
 
-app.getTemp('tamplates/login/login.html').done(function(data){
-    $('main').html(data);
-  
-});
+
+    app.getTemp('tamplates/login/login.html').done(function(data){
+        $('main').html(data);
+
+    });

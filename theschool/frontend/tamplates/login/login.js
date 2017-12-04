@@ -132,3 +132,22 @@ function deleteCourse(id) {
     });
 
 }
+function showCourseForm(){
+   app.getTemp('tamplates/view/create.html').done(function(temp){
+       $('#main').empty();
+       $('#main').append(temp);
+   })
+
+}
+$( "#addCourse" ).click(function( event ) {
+    event.preventDefault();
+    var form = $('form')[0];
+    var formData = new FormData(form);
+    formData.append('action','courses');
+    app.insertImage(formdata).done(function(res){
+        app.insertNewData(table,formdata).done(function(ress){
+            console.log(res);
+            console.log(ress)
+        })
+    })
+});

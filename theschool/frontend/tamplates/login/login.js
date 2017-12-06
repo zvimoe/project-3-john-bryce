@@ -1,4 +1,4 @@
-'use strict'
+
 function login() {
     let username = $("#username").val()
     let password = $("#password").val()
@@ -122,7 +122,7 @@ function deleteCourse(id) {
         }
         $('#main').empty()
         $('#main').append(message);
-       app.getStatmentById('courses', 'all').done(function (courses) {
+        app.getStatmentById('courses', 'all').done(function (courses) {
             $('#there').empty()
             for (let i = 0; i < courses.length; i++) {
                 $('#there').append("<li onclick=' showCourseById(" + courses[i].id + ")' class='list-group-item'>" + courses[i].name + "</li>")
@@ -132,22 +132,24 @@ function deleteCourse(id) {
     });
 
 }
-function showCourseForm(){
-   app.getTemp('tamplates/view/create.html').done(function(temp){
-       $('#main').empty();
-       $('#main').append(temp);
-   })
+function showCourseForm() {
+    app.getTemp('tamplates/view/create.html').done(function (temp) {
+        $('#main').empty();
+        $('#main').append(temp);
+        $('#addcourse').click(function (event) {
+            event.preventDefault();
+            var form = $('form')[0];
+            var table = $('#addcourse').data().table
+            var formData = new FormData(form);
+            app.insertImage(table,formData).done(function () {
+                app.insertNewData(table,formData).done(function () {
+                   // console.log(res);
+                    //console.log(z
+                })
+            })
+        });
+    })
 
 }
-$( "#addCourse" ).click(function( event ) {
-    event.preventDefault();
-    var form = $('form')[0];
-    var formData = new FormData(form);
-    formData.append('action','courses');
-    app.insertImage(formdata).done(function(res){
-        app.insertNewData(table,formdata).done(function(ress){
-            console.log(res);
-            console.log(ress)
-        })
-    })
-});
+
+

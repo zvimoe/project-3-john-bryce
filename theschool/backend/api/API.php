@@ -16,10 +16,13 @@ session_start();
     $adata =  $_REQUEST['data'];
     $action = $_REQUEST['action'];
    }
-   else if(isset($_FILES["picture"])){
-    $adata=$_REQUEST; 
+   if(isset($_FILES["picture"])){
+     $adata= $_POST;
     $adata['image'] = "../frontend/pictures/".$_FILES["picture"]["name"];
+    $action=$adata['action'];
    };
+   
+  
  
    
  switch($action){

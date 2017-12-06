@@ -38,27 +38,26 @@ var app = {
     },
     insertImage: function (table, formData) {
         return $.ajax({
-            url: "../../../backend/api/file-upload.php",
+            url: "../backend/api/file-upload.php",
             enctype: 'multipart/form-data',
             cache: false,
             contentType: false,
             processData: false,
             data: formData,
-            type: 'POST',
-            success: function (role) {
-                console.log(role)
-            }
+            type: 'POST'
         });
 
     },
-    insertNewData: function (table, formData) {
+    insertNewData: function (table,formData) {
+        formData.append('action',table)
         return $.ajax({
             url: "../backend/api/API.php",
+            cache: false,
+            contentType: false,
+            processData: false,
             type: 'POST',
-            data: {
-                action: table,
-                data:formData
-            },
+            data:formData
+            
         });
     }
 }

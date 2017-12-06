@@ -1,13 +1,9 @@
-
-<h1>add/create new {{}}</h1>
-<form>
-    <fieldset>
+<div class="jumbotron">
+    <form enctype="multipart/form-data" id="createForm">
         enter name
-        <input id="name" value="name"> enter password:
-        <input type="password" id="password" value="password"> add image
-        <input type="file" id="password" value="password">
-        
-        <button  id="addcourse()">Create</button>
-    </fieldset>
-</form>
-<form>
+        <input class="input-group-lg" name="name" placeholder="name"> enter password:
+        <input class="input-group-lg" name="password" type="password" id="password" placeholder="password"> add image
+        <input type="file" id="picture" name="picture" placeholder="picture">
+        <button id="addcourse" data-table="students">Create</button>
+    </form>
+</div>

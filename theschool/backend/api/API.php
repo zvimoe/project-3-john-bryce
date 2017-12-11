@@ -29,7 +29,7 @@ session_start();
        case "login":
        $a = new AdminApi;
        $a = $a->login($adata);
-       $permissionId = $a->getVar('role_id');
+       $permissionId = $a->getAllParams();
        $_SESSION['permission'] = $permissionId;
        echo json_encode($permissionId);
        break;

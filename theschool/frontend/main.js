@@ -63,7 +63,3 @@ var app = {
 }
 
 
-app.getTemp('tamplates/login/login.html').done(function (data) {
-    $('main').html(data);
-
-});

@@ -14,6 +14,19 @@ var app = {
 
         });
     },
+    getStatmentBySelectedColumValue:function(table,value,colum){
+
+        return $.ajax({
+            url: "../backend/api/API.php",
+            type: 'GET',
+            data: {
+                action: table,
+                data: { value: value ,
+                   colum:colum}
+            },
+
+        });
+    },
     loginAjax: function (table, data) {
         return $.ajax({
             url: "../backend/api/API.php",

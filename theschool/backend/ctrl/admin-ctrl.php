@@ -1,9 +1,12 @@
 <?php
-    require_once "../commen/bl.php";
-    require_once "../commen/dal.php";
+    // require_once "../commen/bl.php";
+    // require_once "../commen/dal.php";
     require_once "../commen/password-handler.php";
+    require_once "abstract-ctrl.php";
     
-   class AdminCtrl{
+    
+   class AdminCtrl extends Ctrl{
+        private $table='admins';
 
         public function login($admin){
             $name = $admin->getVar('name');
@@ -20,5 +23,21 @@
             }
             return $admin;
         }
+     
+        
+// function to create multin Models
+
+        protected function createMultipleModels($stmt){
+            $Models=array();
+            foreach($stmt as $row){
+                $st=new \model\Admin;
+                foreach($row as $key=>$value){
+                    $st->setvar($key,$value);
+                }
+                array_push($allModels,$st);
+          }
+          return $models ;
+        }
+
    }
    ?>

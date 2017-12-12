@@ -21,8 +21,18 @@
             else{
                 return $this->deleteAll($params);
             }
-               
+    
         }
+    }
+    protected function multiModelsToJson($models){
+        $arrayOfModels=array();
+        foreach($models as $model){
+        $m= $model->getAllParams();
+        array_push($arrayOfModels,$m);
+        }
+        $m=json_encode($arrayOfModels);
+        str_replace($m,'null', '');
+        return $m;
     }
        
 

@@ -1,37 +1,24 @@
 <?php
-    require_once "../commen/bl.php";
-    require_once "../commen/dal.php";
+ 
+    require_once "abstract-ctrl.php";
     require_once "../models/student-model.php";
    
-   class StudentCtrl{
-
-        public function get($student,$studentId){
-
-            $bl = new BLL;
-            $quary = $bl->read($studentId,'id','students');
-            $con = new DAL('theschool');
-            $info = $con->read($quary[0],$quary[1]);
-            foreach($info as $key=>$value){
-  
-               $student->setVar($key,$value);
+ class StudentCtrl extends Ctrl{
+   
+        protected $table='students';
+ 
+     // function to create multin Models
+    protected function createMultipleModels($stmt){
+        $Models=array();
+        foreach($stmt as $row){
+            $st=new \model\Student;
+            foreach($row as $key=>$value){
+                $st->setvar($key,$value);
             }
-            return $student;
-        }
-        public function getAll(){
-            $bl = new BLL;
-            $quary = $bl->readAll('students');
-            $con = new DAL('theschool');
-            $info = $con->readAlone($quary);
-            $stmt = $info->fetchAll();
-            $allstudents=array();
-            foreach($stmt as $row){
-                $st=new \model\student;
-                foreach($row as $key=>$value){
-                    $st->setvar($key,$value);
-                }
-                array_push($allstudents,$st);
-          }
-           return $allstudents ;
-        }
-   }
+            array_push($Models,$st);
+            }
+        return $Models ;
+    }
+  
+}
    ?>

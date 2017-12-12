@@ -22,17 +22,10 @@ require_once "abstract-api.php";
         $mc = new CtrlCourse;
         if($params['id']=='all'){
                 $allCourses=$mc->getAll();
-                $courses=array();
-                    foreach($allCourses as $course){
-                    $c= $course->getAllParams();
-                    array_push($courses,$c);
-                    }
-                    $c=json_encode($courses);
-                    str_replace($c,'null', '');
-                    return $c;
-                }
+                return $this->multiModelsToJson($allCourses);
+            }
         else{
-            $course=$mc->get($m,$params['id']);
+            $course=$mc->getbyId($m,$params['id']);
             $c=$course->getAllParams();
             return json_encode($c);
         }
@@ -49,4 +42,5 @@ require_once "abstract-api.php";
       }
     
 }
+
     ?>

@@ -20,20 +20,13 @@ require_once "abstract-api.php";
           
         $m = new \model\student;
         $mc = new studentCtrl;
-       
+        
         if($params['id']=='all'){ 
             $allStudents=$mc->getAll();
-            $students=array();
-            foreach($allStudents as $student){
-            $s= $student->getAllParams();
-            array_push($students,$s);
-            }
-            $s=json_encode($students);
-            str_replace($s,'null', '');
-            return $s;
+           return  $this->multiModelsToJson($allStudents);
           }
         else{
-            $student=$mc->get($m,$params['id']);
+            $student=$mc->getById($m,$params['id']);
             $s=$student->getAllParams();
             return json_encode($s);
         }

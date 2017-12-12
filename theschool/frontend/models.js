@@ -12,14 +12,13 @@ function Admin(id,name,phone,email,image,role_id){
     this.role_id = role_id;
 }
 
-Admin.prototype.destInfo = {
-    
+Admin.prototype.destInfo = {  // a object of details for dom manipulation 
    info:{
-    place:$('#main'),
+    elem:$('#main'),
     tempUrl:'tamplates/view/adminInfo.html'
    },
    navBar:{
-       place:$('#userInfo'),
+       elem:$('#userInfo'),
        tempUrl:'tamplates/view/userInfo.html'
 
    }
@@ -27,13 +26,14 @@ Admin.prototype.destInfo = {
 function Student(id,name,phone,email,image){
     Person.call(this,id,name,phone,email,image)
 }
-Student.prototype.destInfo = {
+Student.prototype.destInfo = {   // a object of details for dom manipulation 
  
-        place:$('#main'),
+        elem:$('#main'),
         tempUrl:'tamplates/view/studentInfo.html'
     }
-Student.prototype.getCourses= function(app){
-        app.getStatmentBySelectedColumValue('students_courses','s_id',this.id).done(function(res){
+Student.prototype.getCourses= function(app){                                   //gets the courses of the student from diffrent table
+        app.getStatmentBySelectedColumValue('students_courses','s_id',this.id) // and sets it in the model
+        .done(function(res){
           this.courses=res;
         })
     }
@@ -43,14 +43,16 @@ function Course(id,name,description,image){
     this.description=description;
     this.image=image
 }
-Course.prototype.destInfo = {
-
+Course.prototype.destInfo = {   
     place:$('#main'),
     tempUrl:'tamplates/view/coursetInfo.html'
 }
 
-Course.prototype.getStudents= function(app){
-    app.getStatmentBySelectedColumValue('students_courses','c_id',this.id).done(function(res){
+Course.prototype.getStudents= function(app){                                // gets the courses of the student from diffrent table
+                                                                            // and sets it in the model
+    app.getStatmentBySelectedColumValue('students_courses','c_id',this.id)
+    .done(function(res){
       this.courses=res;
     })
    }
+  

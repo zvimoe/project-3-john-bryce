@@ -11,6 +11,7 @@
 
         public function create($params,$table){
                 $indecator=array_shift($params);
+               
                 $prep = array();
                     foreach($params as $k => $v ) { 
                         $prep[':'.$k] = $v;

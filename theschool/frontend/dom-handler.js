@@ -13,8 +13,8 @@ app.getTemp('tamplates/login/login.html').done(function (data) {
             }
             app.loginAjax('login', data).done(function (admin) {
                
-                let keys =Object.values(JSON.parse(admin));
-                let a = new Admin(...keys)
+                let values =Object.values(JSON.parse(admin));
+                let a = new Admin(...values)
                 api.load(a)
             
             });
@@ -46,6 +46,18 @@ var api= {
                 var element=obj.destInfo[destnation].place;
                 element.append(temp);
         })
-    }  
+    },
+    loadStudent:function(id){
+
+        app.getStatmentById('students',id).done(function(stmt){
+            let values =Object.values(JSON.parse(stmt));
+            let s = new Student(...values);
+            s.getCourses(app)
+            console.log(s)
+
+        })
+         
+
+    }
 }
     

@@ -6,6 +6,8 @@
          
          
   class AdminApi extends Api{
+    private $tableName = 'admin';
+
        public function login($params){
            $a=new AdminModel($params['name'],$params['password']);
            $c=new AdminCtrl;
@@ -13,28 +15,7 @@
            return $a;
        }
 
-      function create($params){
-          $m;
-          $mc = new AdminCtrl;
-          $mc->create($m);
-          return "new director inserted";
-      }
-      function select($params){
-          
-          $m = new DirectorModel($params['id'],"");
-          $mc = new DirectorController;
-          return $mc->select($m);
-      }
-      function update($params){
-          $m = new DirectorModel($params['id'],$params['name']);
-          $mc = new DirectorController;
-          return $mc->upadte($m);
-      }
-      function delete($params){
-          $m = new DirectorModel($params['id']);
-          $mc = new DirectorController;
-          $mc->delete($m);
-          return "director deleted";
-      }
+     
+     
     }
     ?>

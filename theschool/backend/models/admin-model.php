@@ -1,6 +1,6 @@
 <?php
-    
- class  AdminModel{
+      namespace model;
+ class  Admin{
     private $id;
     private $name;
     private $role_id ;

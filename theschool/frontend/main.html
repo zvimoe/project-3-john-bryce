@@ -1,33 +1,45 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous">
 
-    </script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+        </script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+                crossorigin="anonymous"></script>
 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-        crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+                crossorigin="anonymous">
+        <link rel="stylesheet" href="main.css">
+
 </head>
 
 <body>
         <div class="container">
                 <nav class="navbar navbar-default">
                         <div class="container-fluid">
-                                <img src="tamplates/nav-bar/js.jpg">  
-                                <a class ="btn" href="#" >school</a>
-                                <a class ="btn" href="# ">adminastrator</a>
-                                <a class ="btn" href="#">home</a>
-                                <span id="userInfo"></span>
+                                <img src="tamplates/nav-bar/js.jpg">
+                                <a id="school" class="btn" href="#">school</a>
+                                <a id="admins" class="btn" href="# ">adminastrator</a>
+                                <a class="btn" href="#">home</a>
+                                <img class="pic" src="pictures/default_profile.gif" width="20%">
+                                <a id="name" class="btn" href="#"></a>
+                                <a id="role" class=" btn btn-danger" href="# "></a>
+                                <a id="signIn" class="btn-primary" href="# "></a>
+
                         </div>
+
                 </nav>
-              </div>
-    <main></main>
-   <script src="main.js"></script>
-   <script src="dom-handler.js"></script>
-   <!-- <script src='tamplates/login/login.js'></script> -->
-   <script src="models.js"></script>
+        </div>
+        <main></main>
+        <script src="tamplates/home-page/file-upload.js"></script>
+        <script src='models.js'></script>
+        <script src='app.js'></script>
+        <script src="main.js"></script>
+       
+        
+
+
 </body>
 
 

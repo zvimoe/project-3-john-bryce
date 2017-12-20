@@ -6,7 +6,7 @@
     
     
    class AdminCtrl extends Ctrl{
-        private $table='admins';
+        protected $table='admins';
 
         public function login($admin){
             $name = $admin->getVar('name');
@@ -30,13 +30,13 @@
         protected function createMultipleModels($stmt){
             $Models=array();
             foreach($stmt as $row){
-                $st=new \model\Admin;
+                $st=new AdminModel("","");
                 foreach($row as $key=>$value){
                     $st->setvar($key,$value);
                 }
-                array_push($allModels,$st);
+                array_push($Models,$st);
           }
-          return $models ;
+          return $Models ;
         }
 
    }

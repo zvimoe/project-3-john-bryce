@@ -1,6 +1,6 @@
 <?php
-      namespace model;
- class  Admin{
+    
+ class  AdminModel{
     private $id;
     private $name;
     private $role_id ;
@@ -24,10 +24,11 @@
          $allstudents =  array(
              'id'=>$this->id,
              'name'=>$this->name,
+             'role_id'=>$this->role_id,
              'phone'=>$this->phone,
              'email'=>$this->email,
              'password'=>$this->password,
-             'courses'=>$this->courses=[]
+            
          );
          return $allstudents;
  

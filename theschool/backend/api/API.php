@@ -3,14 +3,7 @@ session_start();
    require_once "admin-api.php";
    require_once "student-api.php";
    require_once "course-api.php";
-   require_once "student-courses-api.php";
-   require_once "../ctrl/admin-ctrl.php";
-   require_once "../ctrl/student-ctrl.php";
-   require_once "../ctrl/course-ctrl.php";
-   require_once "../models/admin-model.php";
-   require_once "../models/student-model.php";
-   require_once "../models/course-model.php";
-  
+  require_once "student-courses-api.php";
 
     $meth= strtoupper($_SERVER['REQUEST_METHOD']);
 
@@ -35,30 +28,35 @@ session_start();
    
  switch($action){
        case "login":
-       $a = new AdminApi(new \model\Admin,new AdminCtrl);
+       $a = new AdminApi;
        $a = $a->login($adata);
-       $permissionId = $a->getVar('role_id');
+       $permissionId = $a->getAllParams();
        $_SESSION['permission'] = $permissionId;
        echo json_encode($permissionId);
        break;
-       case "admins":
-       $a = new AdminApi(new \model\Admin,new AdminCtrl);
-       $admins = $a->manager($meth,$adata);
-       echo $admins;
-       break;
        case "students":
-       $s=new StudentApi(new \model\student,new studentCtrl);
+       $s=new StudentApi;
+      // echo $_SESSION['permission'];
+       $students = $s->manager($meth,$adata);
+       echo $students;
+       break;
+       case "admins":
+       $s=new AdminApi;
       // echo $_SESSION['permission'];
        $students = $s->manager($meth,$adata);
        echo $students;
        break;
        case "courses":
-       $c=new CourseApi(new \model\Course, new CtrlCourse);
+       $c=new CourseApi;
        $courses= $c->manager($meth,$adata);
        echo $courses;
        break;
-       case "students_courses":
-       $cs =new CsApi($meth,$adata);
+       case 'students_courses':
+       $sc =new ScApi;
+       $studentCourses=$sc->manager($meth,$data);
+       echo $studentCourses;
        break;
+       
+
    }
    ?>

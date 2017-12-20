@@ -1,22 +1,26 @@
-'use strict'
-$( "button" ).click(function( event ) {
+ 'use strict'
+ $('button').click(loadImage)
+function loadImage(event){
     event.preventDefault();
+    console.log('jhdjs')
     var form = $('form')[0];
     var formData = new FormData(form);
-    formData.append('action','courses');
-    app.insertImage(formdata);
-    app.insertNewData(table,formdata);
+    var table =event.data.table;
+    formData.append('action',table);
+    console.log(formData)
+   app.insertImage(table,formData).done(()=>{app.insertNewData(table,formData);})
     
-$.ajax({
-    url: "../../../backend/api/file-upload.php",
-    enctype: 'multipart/form-data',
-    cache: false,
-    contentType: false,
-    processData: false,
-    data: formData,
-    type: 'POST',
-    success: function(role){
-        console.log(role)
-    }
-});
-})
+}
+// $.ajax({
+//     url: "../../../backend/api/file-upload.php",
+//     enctype: 'multipart/form-data',
+//     cache: false,
+//     contentType: false,
+//     processData: false,
+//     data: formData,
+//     type: 'POST',
+//     success: function(role){
+//         console.log(role)
+//     }
+//   });
+//  }

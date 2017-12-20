@@ -36,10 +36,9 @@ require_once "abstract-api.php";
         $mc = new studentCtrl;
           return $mc->upadte($m);
       }
-      function delete($params){
-        $m = new \model\student;
+      function delete($id){
         $mc = new studentCtrl;
-          $mc->delete($m);
+          $mc->delete($id);
           return "director deleted";
       }
     

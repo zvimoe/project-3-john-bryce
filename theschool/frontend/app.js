@@ -48,7 +48,7 @@ var app = {
         });
 
     },
-    objectDisployter: function (obj, tempUrl, contID) {
+    objectDisployter: function (obj, tempUrl,contID,table) {
        
             var keys = Object.keys(obj);
             app.getTemp(tempUrl).done(function (temp) {
@@ -59,10 +59,10 @@ var app = {
                 let elem = $("#" + contID);
                 elem.empty()
                 elem.append(temp);
-                $('#deleteCourse').click(function () {
-                    deleteCourse(obj.id)
+                $('#delete').click(function () {
+                    deleteCourse(obj.id,table)
                 })
-                $('#editCourse').click(function () {
+                $('#edit').click(function () {
                     showEditForm(obj);
                 })
             })

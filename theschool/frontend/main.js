@@ -38,8 +38,10 @@ function load(admin) {
             loadAdmins()
             break;
         case 1:
+            $('#name').append('hi ' + a.name)
+            $('#role').append('sign out')
             console.log('works')
-            $('#admin-tab').css('display', 'none');
+            $('#admins').css('display', 'none');
             loadSchool()
             break;
     }
@@ -51,11 +53,11 @@ function showStudentById(id) {
         app.getStatmentById('students_courses', data).done(function (studentCourses) {
             student = JSON.parse(student);
             // studentCourses = JSON.parse(studentCourses);
-            app.objectDisployter(student, 'tamplates/view/coursesInfo.html', 'main')
-            $('#deleteStudent').click(function () {
-                deleteStudent(student.id)
+            app.objectDisployter(student, 'tamplates/view/studentInfo.html', 'main','students')
+            $('#delete').click(function () {
+                deleteCourse(student.id)
             })
-            $('#editStudent').click(function () {
+            $('#edit').click(function () {
                 showEditForm(student);
             })
             })
@@ -66,18 +68,24 @@ function showCourseById(id) {
         let data = { id: id, returnColum: 's_id' }
         app.getStatmentById('students_courses', data).done(function (studentCourses) {
             student = JSON.parse(student);
-            app.objectDisployter(student, 'tamplates/view/coursesInfo.html', 'main')
-              
+            app.objectDisployter(student, 'tamplates/view/coursesInfo.html', 'main','courses')
+            $('#delete').click(function () {
+                deleteCourse(student.id)
+            })
+            $('#edit').click(function () {
+                showEditForm(student);
+            })
+            })
      
      })   
-})
+
           
 }
 
 function showAdminById(id) {
     app.getStatmentById('admins', id).done(function (admin) {
         admin = JSON.parse(admin);
-        app.objectDisployter(admin, 'tamplates/view/adminInfo.html', 'main')
+        app.objectDisployter(admin, 'tamplates/view/adminInfo.html', 'main','admins')
            $('#deleteCourse').click(function() {
                console.log('bb')
                 deleteCourse(student.id)
@@ -128,9 +136,9 @@ function loadAdmins() {
         })
     })
 }
-function deleteCourse(id) {
+function deleteCourse(id,table) {
     if (confirm("this course will be deleted with no return do yo wont to continue"))
-        app.deleteById('courses', id).done(function (res) {
+        app.deleteById(table, id).done(function (res) {
             let message = ""
             if (typeof (res) == 'string') {
                 message = res

@@ -1,10 +1,10 @@
 <?php
  abstract class Api{
   
-    abstract function create($params);
-    abstract function select($paramd);
-    abstract function update($params);
-    abstract function delete($params);
+        abstract function create($params);
+        abstract function select($paramd);
+        abstract function update($params);
+        abstract function delete($params);
 
     public function manager($func,$params){
         switch($func){

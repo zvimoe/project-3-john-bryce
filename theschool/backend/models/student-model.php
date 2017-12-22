@@ -6,7 +6,7 @@
        private $phone;
        private $email;
        private $password;
-       private $courses=[];
+       private $image;
        
        public function getVar($var){
                
@@ -27,7 +27,7 @@
             'phone'=>$this->phone,
             'email'=>$this->email,
             'password'=>$this->password,
-            'courses'=>$this->courses=[]
+            'image'=>$this->image,
         );
         return $allstudents;
 

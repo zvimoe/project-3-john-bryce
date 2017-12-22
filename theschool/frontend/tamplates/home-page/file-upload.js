@@ -6,9 +6,12 @@ function loadImage(event){
     var form = $('form')[0];
     var formData = new FormData(form);
     var table =event.data.table;
+    console.log(table)
     formData.append('action',table);
     console.log(formData)
-   app.insertImage(table,formData).done(()=>{app.insertNewData(table,formData);})
+   app.insertImage(table,formData).done(()=>{app.insertNewData(table,formData);}).done((res)=>{
+        loadSchool()
+   })
     
 }
 // $.ajax({

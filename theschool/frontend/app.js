@@ -48,25 +48,30 @@ var app = {
         });
 
     },
-    objectDisployter: function (obj, tempUrl,contID,table) {
+    objectDisployter: function (obj, tempUrl,callback) {
        
             var keys = Object.keys(obj);
             app.getTemp(tempUrl).done(function (temp) {
                 for (let i = 0; i < keys.length; i++) {
                     temp = temp.replace("{{" + keys[i] + "}}", obj[keys[i]]);
-
+    
                 }
-                let elem = $("#" + contID);
-                elem.empty()
-                elem.append(temp);
-                $('#delete').click(function () {
-                    deleteCourse(obj.id,table)
-                })
-                $('#edit').click(function () {
-                    showEditForm(obj);
-                })
+                callback(temp)
             })
-        
+             
+    },
+    MultiObjectDisployter(array,tempUrl,callback){
+        for (let i = 0; i < array.length; i++) {
+          obj = array[i]
+          var keys = Object.keys(obj);
+          app.getTemp(tempUrl).done(function (temp) {
+              for (let j = 0; j < keys.length; j++) {
+                  temp = temp.replace("{{" + keys[j] + "}}", obj[keys[j]]);
+
+              }
+        })
+           callback(temp)
+      }
     },
     insertNewData: function (table, formData) {
         formData.append('action', table)

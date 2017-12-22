@@ -10,13 +10,13 @@
           
 
         public function create($params,$table){
-                $indecator=array_shift($params);
-               
+               if($table!='students_courses')$indecator=array_shift($params);
+
                 $prep = array();
                     foreach($params as $k => $v ) { 
                         $prep[':'.$k] = $v;
                     }
-               return array("INSERT INTO $table ( " . implode(', ',array_keys($params)) .
+           return array("INSERT INTO $table ( " . implode(', ',array_keys($params)) .
                 ") VALUES (" . implode(', ',array_keys($prep)) . ")",$prep);
                    
 

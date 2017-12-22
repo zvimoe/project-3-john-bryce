@@ -49,52 +49,61 @@ function load(admin) {
 
 function showStudentById(id) {
     app.getStatmentById('students', id).done(function (student) {
-        let data = { id: id, returnColum: 'c_id' }
-        app.getStatmentById('students_courses', data).done(function (studentCourses) {
             student = JSON.parse(student);
-            // studentCourses = JSON.parse(studentCourses);
-            app.objectDisployter(student, 'tamplates/view/studentInfo.html', 'main','students')
-            $('#delete').click(function () {
-                deleteCourse(student.id)
-            })
-            $('#edit').click(function () {
-                showEditForm(student);
-            })
+            // studentCourses = [];
+            // getcourses(id, function (res) {
+            //     studentCourses.push(res)
+            // });
+            app.objectDisployter(student, 'tamplates/view/studentInfo.html', function (temp) {
+                let elem = $("#main");
+                elem.empty()
+                elem.append(temp);
+                buildBottens('students', student)
+                // addList(studentCourses,function(list) {
+                //      $('#ul').append(list)
+
+                // })
+
+
+
             })
         })
+  
 }
 function showCourseById(id) {
-    app.getStatmentById('courses', id).done(function (student) {
-        let data = { id: id, returnColum: 's_id' }
-        app.getStatmentById('students_courses', data).done(function (studentCourses) {
-            student = JSON.parse(student);
-            app.objectDisployter(student, 'tamplates/view/coursesInfo.html', 'main','courses')
-            $('#delete').click(function () {
-                deleteCourse(student.id)
-            })
-            $('#edit').click(function () {
-                showEditForm(student);
-            })
-            })
-     
-     })   
+    app.getStatmentById('courses', id).done(function (course) {
+          course = JSON.parse(course);
+            app.objectDisployter(course, 'tamplates/view/coursesInfo.html', function(temp){
+                let elem = $("#main");
+                elem.empty()
+                elem.append(temp);
+                buildBottens('courses', course)
+                // addList(studentCourses,function(list) {
+                //      $('#ul').append(list)
 
-          
+                })
+
+
+
+           
+    })
+
+
 }
 
 function showAdminById(id) {
     app.getStatmentById('admins', id).done(function (admin) {
         admin = JSON.parse(admin);
-        app.objectDisployter(admin, 'tamplates/view/adminInfo.html', 'main','admins')
-           $('#deleteCourse').click(function() {
-               console.log('bb')
-                deleteCourse(student.id)
-            })
-            $('#editCourse').click(function () {
-                showEditForm(admin);
-            })
-        });
-   
+        app.objectDisployter(admin, 'tamplates/view/adminInfo.html', 'main', 'admins')
+        $('#deleteCourse').click(function () {
+            console.log('bb')
+            deleteCourse(student.id)
+        })
+        $('#editCourse').click(function () {
+            showEditForm(admin);
+        })
+    });
+
 }
 
 // TODO
@@ -110,13 +119,14 @@ function loadSchool() {
                 $('main').html(temp)
                 for (let i = 0; i < students.length; i++) {
                     $('#here').append("<li onclick=' showStudentById(" + students[i].id + ")' class='list-group-item'>"
-                    + students[i].name +"<img class ='small-pic' src=" +students[i].image+"></li>")
+                        + students[i].name + "<img class ='small-pic' src=" + students[i].image + "></li>")
 
                 }
                 for (let i = 0; i < courses.length; i++) {
                     $('#there').append("<li onclick=' showCourseById(" + courses[i].id + ")' class='list-group-item'>"
-                     + courses[i].name +"<img class ='small-pic' src=" +courses[i].image+"></li>")
+                        + courses[i].name + "<img class ='small-pic' src=" + courses[i].image + "></li>")
                 }
+                getCoursesAndStudents()
 
             })
         })
@@ -129,14 +139,14 @@ function loadAdmins() {
             $('main').empty();
             $('main').html(temp)
             for (let i = 0; i < admins.length; i++) {
-                $('#here').append("<li onclick='showAdminById(" + admins[i].id + ")' class='list-group-item'>" + admins[i].name+"</li>")
+                $('#here').append("<li onclick='showAdminById(" + admins[i].id + ")' class='list-group-item'>" + admins[i].name + "</li>")
             }
             $('#main').html("<h1 class = 'jumbotron'>number of admins is: <hr>" + admins.length + "</h1>")
 
         })
     })
 }
-function deleteCourse(id,table) {
+function deleteCourse(id, table) {
     if (confirm("this course will be deleted with no return do yo wont to continue"))
         app.deleteById(table, id).done(function (res) {
             let message = ""
@@ -156,26 +166,85 @@ function showCourseForm(table) {
     app.getTemp('tamplates/view/createCourse.html').done(function (temp) {
         $('#main').empty();
         $('#main').append(temp);
-        $('#eeeee').click({table:table},loadImage) 
-           
-       });
+        $('#addcourse').click({ table: table }, loadImage)
+
+    });
 
 }
+function showStudentForm(table){
+    app.getTemp('tamplates/view/createStudent.html').done(function (temp) {
+        $('#main').empty();
+        $('#main').append(temp);
+        $('#addstudent').click({ table: table }, loadImage)
+    });
+}
 function showEditForm(obj) {
-    console.log('hsjdhdhj');
+    
     $('#main').empty()
     var keys = Object.keys(obj)
+    var form =document.createElement('form')
     for (var i = 0; i < keys.length; i++) {
         var input = document.createElement('input')
         input.id = input.name = input.placeholder = keys[i]
-        $('#main').append(input)
-        obj.keys[i]=input.value
+        form.appendChild(input)
+        input.value=obj[keys[i]]
     }
-    console.log (obj)
+    var button =document.createElement('button');
+    button.innerText='update';
+    form.appendChild(button)
+    button.addEventListener('click',function(event){
+        event.preventDefault()
+         console.log(form)
+    })
+    $('#main').addClass('jumbotron')
+    $('#main').append(form)
+
+    
 }
 function signOut() {
     sessionStorage.clear();
     location.reload();
+
+}
+function getCoursesAndStudents() {
+    app.getStatmentById('students_courses', 'get all coursse and statments').done(function (res) {
+        window.caches.studentCourses = JSON.parse(res)
+
+
+
+    })
+}
+function getcourses(id, callback) {
+    var sc = caches.studentCourses
+    for (var i = 0; i < sc.length; i++) {
+        if (sc[i].s_id == id) {
+            app.getStatmentById('courses', sc[i].c_id).done(function (course) {
+                callback(JSON.parse(course));
+            })
+
+            // callback(course)
+        }
+    }
+
+}
+function buildBottens(table, obj) {
+    $('#delete').click(function () {
+        deleteCourse(obj.id, table)
+    })
+    $('#edit').click(function () {
+        showEditForm(obj);
+    })
+}
+function addList(array,callback) {
+    console.log(array)
+    for(let i = 0; i < array.length; i++) {
+        console.log(array[i].name)
+        var il = document.createElement('div')
+        il.innerText = array[i].name;
+        callback(il)
+    }
+
+
 
 }
 $('a#school').click(loadSchool)

@@ -3,28 +3,34 @@ session_start();
    require_once "admin-api.php";
    require_once "student-api.php";
    require_once "course-api.php";
-  require_once "student-courses-api.php";
-
-    $meth= strtoupper($_SERVER['REQUEST_METHOD']);
-
-   if($meth==  'PUT' || $meth == 'DELETE') {
-    parse_str(file_get_contents("php://input"),$post_vars);
-    $action = $post_vars['action'];
-    $adata = $post_vars['data']; 
+   require_once "student-courses-api.php";
+   $debugMode = false;
+   if ($debugMode == true){
+    $meth ='GET';
+    $action = 'students_courses';
+    $adata = array('c_id'=>'21','s_id'=>'1');
    }
-
-   if(isset($_REQUEST['data'])){
-    $adata =  $_REQUEST['data'];
-    $action = $_REQUEST['action'];
-   }
-   if(isset($_FILES["picture"])){
-     $adata= $_POST;
-    $adata['image'] = "../frontend/pictures/".$_FILES["picture"]["name"];
-    $action=$adata['action'];
-   };
+   else{
    
-  
- 
+
+        $meth= strtoupper($_SERVER['REQUEST_METHOD']);
+
+      if($meth==  'PUT' || $meth == 'DELETE') {
+        parse_str(file_get_contents("php://input"),$post_vars);
+        $action = $post_vars['action'];
+        $adata = $post_vars['data']; 
+      }
+
+      if(isset($_REQUEST['data'])){
+        $adata =  $_REQUEST['data'];
+        $action = $_REQUEST['action'];
+      }
+      if(isset($_FILES["picture"])){
+        $adata= $_POST;
+        $adata['image'] = "../frontend/pictures/".$_FILES["picture"]["name"];
+        $action=$adata['action'];
+      };
+  }
    
  switch($action){
        case "login":
@@ -53,8 +59,8 @@ session_start();
        break;
        case 'students_courses':
        $sc =new ScApi;
-       $studentCourses=$sc->manager($meth,$data);
-       echo $studentCourses;
+       $res = $sc->manager($meth,$adata);
+       echo json_encode($res);
        break;
        
 

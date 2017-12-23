@@ -21,17 +21,11 @@ function login() {
     app.loginAjax('login', data).done(function (admin) {
         sessionStorage.setItem('admin', admin)
         load(admin)
-        var b = sessionStorage.getItem('admin');
-        console.log(b)
-
-
     });
 }
 function load(admin) {
     let a = JSON.parse(admin);
-    let role = a.role_id;
-    console.log(role)
-    switch (role) {
+    switch (a.role_id) {
         case 2:
             $('#name').append('hi ' + a.name)
             $('#role').append('sign out')
@@ -48,44 +42,26 @@ function load(admin) {
 }
 
 function showStudentById(id) {
-    app.getStatmentById('students', id).done(function (student) {
-            student = JSON.parse(student);
-            // studentCourses = [];
-            // getcourses(id, function (res) {
-            //     studentCourses.push(res)
-            // });
-            app.objectDisployter(student, 'tamplates/view/studentInfo.html', function (temp) {
-                let elem = $("#main");
-                elem.empty()
-                elem.append(temp);
-                buildBottens('students', student)
-                // addList(studentCourses,function(list) {
-                //      $('#ul').append(list)
-
-                // })
+    getObjById(id, 'students', function (student) {
+        app.objectDisployter(student, 'tamplates/view/studentInfo.html', function (temp) {
+            let elem = $("#main");
+            elem.empty()
+            elem.append(temp);
+            buildBottens('students', student)
 
 
-
-            })
         })
-  
+    })
+
 }
 function showCourseById(id) {
-    app.getStatmentById('courses', id).done(function (course) {
-          course = JSON.parse(course);
-            app.objectDisployter(course, 'tamplates/view/coursesInfo.html', function(temp){
-                let elem = $("#main");
-                elem.empty()
-                elem.append(temp);
-                buildBottens('courses', course)
-                // addList(studentCourses,function(list) {
-                //      $('#ul').append(list)
-
-                })
-
-
-
-           
+    getObjById(id, 'courses', function (course) {
+        app.objectDisployter(course, 'tamplates/view/coursesInfo.html', function (temp) {
+            let elem = $("#main");
+            elem.empty()
+            elem.append(temp);
+            buildBottens('courses', course)
+        })
     })
 
 
@@ -106,31 +82,28 @@ function showAdminById(id) {
 
 }
 
-// TODO
-
 
 function loadSchool() {
-    app.getStatmentById('students', 'all').done(function (students) {
-        students = JSON.parse(students);
-        app.getStatmentById('courses', 'all').done(function (courses) {
-            courses = JSON.parse(courses);
-            app.getTemp('tamplates/home-page/school-page.html').done(function (temp) {
-                $('main').empty();
-                $('main').html(temp)
-                for (let i = 0; i < students.length; i++) {
-                    $('#here').append("<li onclick=' showStudentById(" + students[i].id + ")' class='list-group-item'>"
-                        + students[i].name + "<img class ='small-pic' src=" + students[i].image + "></li>")
+    getCoursesAndStudents(function () {
+        getCourses(function (courses) {
+            getStudents(function (students) {
+                app.getTemp('tamplates/home-page/school-page.html').done(function (temp) {
+                    $('main').empty();
+                    $('main').html(temp)
+                    for (let i = 0; i < students.length; i++) {
+                        $('#here').append("<li onclick=' showStudentById(" + students[i].id + ")' class='list-group-item'>"
+                            + students[i].name + "<img class ='small-pic' src=" + students[i].image + "></li>")
 
-                }
-                for (let i = 0; i < courses.length; i++) {
-                    $('#there').append("<li onclick=' showCourseById(" + courses[i].id + ")' class='list-group-item'>"
-                        + courses[i].name + "<img class ='small-pic' src=" + courses[i].image + "></li>")
-                }
-                getCoursesAndStudents()
-
+                    }
+                    for (let i = 0; i < courses.length; i++) {
+                        $('#there').append("<li onclick=' showCourseById(" + courses[i].id + ")' class='list-group-item'>"
+                            + courses[i].name + "<img class ='small-pic' src=" + courses[i].image + "></li>")
+                    }
+                })
             })
         })
-    });
+    })
+
 }
 function loadAdmins() {
     app.getStatmentById('admins', 'all').done(function (admins) {
@@ -171,7 +144,7 @@ function showCourseForm(table) {
     });
 
 }
-function showStudentForm(table){
+function showStudentForm(table) {
     app.getTemp('tamplates/view/createStudent.html').done(function (temp) {
         $('#main').empty();
         $('#main').append(temp);
@@ -179,54 +152,71 @@ function showStudentForm(table){
     });
 }
 function showEditForm(obj) {
-    
+
     $('#main').empty()
     var keys = Object.keys(obj)
-    var form =document.createElement('form')
+    var form = document.createElement('form')
     for (var i = 0; i < keys.length; i++) {
         var input = document.createElement('input')
         input.id = input.name = input.placeholder = keys[i]
         form.appendChild(input)
-        input.value=obj[keys[i]]
+        input.value = obj[keys[i]]
     }
-    var button =document.createElement('button');
-    button.innerText='update';
+    var button = document.createElement('button');
+    button.innerText = 'update';
     form.appendChild(button)
-    button.addEventListener('click',function(event){
+    button.addEventListener('click', function (event) {
         event.preventDefault()
-         console.log(form)
+        console.log(form)
     })
     $('#main').addClass('jumbotron')
     $('#main').append(form)
 
-    
+
 }
 function signOut() {
     sessionStorage.clear();
     location.reload();
 
 }
-function getCoursesAndStudents() {
+function getCoursesAndStudents(callback) {
     app.getStatmentById('students_courses', 'get all coursse and statments').done(function (res) {
         window.caches.studentCourses = JSON.parse(res)
-
-
-
+        callback()
     })
 }
-function getcourses(id, callback) {
-    var sc = caches.studentCourses
-    for (var i = 0; i < sc.length; i++) {
-        if (sc[i].s_id == id) {
-            app.getStatmentById('courses', sc[i].c_id).done(function (course) {
-                callback(JSON.parse(course));
-            })
 
-            // callback(course)
+function getCourses(callback) {
+    app.getStatmentById('courses', 'all').done(function (courses) {
+        courses = JSON.parse(courses);
+        var courseArray = []
+        for (let i = 0; i < courses.length; i++) {
+            var v = Object.values(courses[i])
+            var courseObject = new Course(...v)
+            courseObject.addStudents()
+            courseArray.push(courseObject)
         }
-    }
-
+        window.caches.courses = courseArray;
+        callback(courseArray)
+    });
 }
+function getStudents(callback) {
+    app.getStatmentById('students', 'all').done(function (students) {
+        students = JSON.parse(students);
+        var studentArray = []
+        for (let i = 0; i < students.length; i++) {
+            var v = Object.values(students[i])
+            var studentObject = new Student(...v)
+            studentObject.addCourses()
+            studentArray.push(studentObject)
+        }
+        window.caches.students = studentArray
+        callback(studentArray)
+    })
+}
+
+
+
 function buildBottens(table, obj) {
     $('#delete').click(function () {
         deleteCourse(obj.id, table)
@@ -235,18 +225,24 @@ function buildBottens(table, obj) {
         showEditForm(obj);
     })
 }
-function addList(array,callback) {
+function addList(array, callback) {
     console.log(array)
-    for(let i = 0; i < array.length; i++) {
+    for (let i = 0; i < array.length; i++) {
         console.log(array[i].name)
         var il = document.createElement('div')
         il.innerText = array[i].name;
         callback(il)
     }
-
-
-
 }
+function getObjById(id, table, callback) {
+    var array = caches[table]
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].id == id) callback(array[i])
+    }
+}
+
+
+
 $('a#school').click(loadSchool)
 $('a#admins').click(loadAdmins)
 $('a#role').click(signOut)

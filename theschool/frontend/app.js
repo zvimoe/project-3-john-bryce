@@ -54,8 +54,9 @@ var app = {
         app.getTemp(tempUrl).done(function (temp) {
             for (let i = 0; i < keys.length; i++) {
                 temp = temp.replace("{{" + keys[i] + "}}", obj[keys[i]]);
+                var index = 0
                 if (typeof obj[keys[i]] === 'object') {
-                    for (var index = 0; index < obj[keys[i]].length; index++) {
+                    for (index = 0; index < obj[keys[i]].length; index++) {
                         if (index == 1) break;
                         var a = obj[keys[[i][index]]]
                         var list = document.createElement('ul')
@@ -72,6 +73,9 @@ var app = {
                             list.appendChild(li)
                         }
                         temp =temp.replace('{{list}}',list.outerHTML)
+                    }
+                    if (index==0){
+                        temp =temp.replace('{{list}}',"")
                     }
 
                 }

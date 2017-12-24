@@ -12,6 +12,10 @@ function Admin(id, name, role_id, phone, email, password, image) {
     this.role_id = role_id;
 
 }
+ function Role(id,name){  
+    this.name=name;     
+    this.id =id; 
+}
 
 
 function Student(id, name, phone, email,password, image) {

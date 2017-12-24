@@ -10,12 +10,10 @@ li {
   width: 71px;
   height: 71px;
 }
-.small-pic{
+.small-pic {
   float: right;
   width: 30px;
   height: 30px;
   position: relative;
   bottom: 9px;
 }
-
-

@@ -4,10 +4,12 @@ session_start();
    require_once "student-api.php";
    require_once "course-api.php";
    require_once "student-courses-api.php";
+   require_once "roles-api.php";
+   
    $debugMode = false;
    if ($debugMode == true){
     $meth ='GET';
-    $action = 'students_courses';
+    $action = 'roles';
     $adata = array('c_id'=>'21','s_id'=>'1');
    }
    else{
@@ -60,6 +62,11 @@ session_start();
        case 'students_courses':
        $sc =new ScApi;
        $res = $sc->manager($meth,$adata);
+       echo json_encode($res);
+       break;
+       case 'roles':
+       $r=new RolesApi;
+       $res = $r->getRoles($action);
        echo json_encode($res);
        break;
        

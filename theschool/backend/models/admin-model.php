@@ -7,6 +7,7 @@
     private $phone;
     private $email;
     private $password;
+    private $image;
     function __construct($name,$password){       
       $this->name=$name;
       $this->password=$password;
@@ -28,6 +29,7 @@
              'phone'=>$this->phone,
              'email'=>$this->email,
              'password'=>$this->password,
+             'image'=>$this->image
             
          );
          return $allstudents;

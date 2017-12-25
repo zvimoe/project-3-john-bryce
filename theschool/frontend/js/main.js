@@ -109,7 +109,8 @@ function loadAdmins() {
                 $('main').empty();
                 $('main').html(temp)
                 for (let i = 0; i < admins.length; i++) {
-                    $('#here').append("<li onclick='showAdminById(" + admins[i].id + ")' class='list-group-item'>" + admins[i].name + "</li>")
+                    $('#here').append("<li onclick='showAdminById(" + admins[i].id + ")' class='list-group-item'>"
+                     + admins[i].name + "<img class ='small-pic' src=" + admins[i].image + "></li>")
                 }
                 $('#main').html("<h1 class = 'jumbotron'>number of admins is: <hr>" + admins.length + "</h1>")
             })
@@ -137,6 +138,7 @@ function showDropdown(tabel) {
     var array = window.caches[tabel]
     console.log(array)
     var container = document.createElement('select')
+    container.name ='role_id'
     for (let index = 0; index < array.length; index++) {
         var option = document.createElement('option')
         option.value=array[index].id 
@@ -148,7 +150,7 @@ function showDropdown(tabel) {
 function buildRadioBtns(table) {
     var array = window.caches[table]
     for (let index = 0; index < array.length; index++) {
-        $('#id').append("<br><input type='radio' value='" + array[index].id + "'>" + array[index].name)
+        $('#id').append("<br><input type='radio' value='" + array[index].id +"'>" + array[index].name)
     }
 }
 
@@ -157,7 +159,7 @@ function showCreateForm(table, tempName, dropdowntable) {
         $('#main').empty();
         $('#main').append(temp)
         $(document).ready(function () {
-            $('#add').click({ table: table }, loadImage)
+            $('#add').click({ table: table },loadImage)
             $('#main').addClass('jumbotron')
             dropdowntable == 'courses' ? buildRadioBtns(dropdowntable) : showDropdown(dropdowntable);
         })

@@ -50,9 +50,9 @@ session_start();
        break;
        case "admins":
        $s=new AdminApi;
-      // echo $_SESSION['permission'];
-       $students = $s->manager($meth,$adata);
-       echo $students;
+      // echo $_SESSION['permission']; //todo
+       $admins = $s->manager($meth,$adata);
+       echo $admins;
        break;
        case "courses":
        $c=new CourseApi;

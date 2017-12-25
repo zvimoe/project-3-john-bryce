@@ -16,7 +16,10 @@
        }
 
       function create($params){
-          $m;
+          $m = new AdminModel($params['name'],$params['password']);
+          foreach($params as $key=>$value){
+            $m->setVar($key,$value);
+        }
           $mc = new AdminCtrl;
           $mc->create($m);
           return "new director inserted";

@@ -10,7 +10,7 @@ function loadImage(event){
     formData.append('action',table);
     console.log(formData)
    app.insertImage(table,formData).done(()=>{app.insertNewData(table,formData);}).done((res)=>{
-        loadSchool()
+      table == 'courses'||'students'?loadSchool():loadAdmins()
    })
     
 }

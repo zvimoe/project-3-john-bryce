@@ -40,7 +40,6 @@ function load(admin) {
             break;
     }
 }
-
 function showStudentById(id) {
     getObjById(id, 'students', function (student) {
         app.objectDisployter(student, 'tamplates/view/studentInfo.html', function (temp) {
@@ -48,8 +47,6 @@ function showStudentById(id) {
             elem.empty()
             elem.append(temp);
             buildBottens('students', student)
-
-
         })
     })
 
@@ -66,7 +63,6 @@ function showCourseById(id) {
 
 
 }
-
 function showAdminById(id) {
     app.getStatmentById('admins', id).done(function (admin) {
         admin = JSON.parse(admin);
@@ -78,8 +74,28 @@ function showAdminById(id) {
         });
     })
 }
-
-
+function showObjById(id,table) {
+    getObjById( id,table,function (obj) {
+        var url ='tamplates/view/'
+        switch(table){
+            case 'admins':
+            url += 'adminInfo.html'
+            break;
+            case 'courses':
+            url += 'coursesInfo.html';
+            break;
+            case 'students':
+            url += 'studentInfo.html';
+            break;
+        }
+        app.objectDisployter(obj,url,function (temp) {
+            let elem = $("#main");
+            elem.empty()
+            elem.append(temp);
+            buildBottens(table,obj)
+        });
+    })
+}
 function loadSchool() {
     getCoursesAndStudents(function () {
         getCourses(function (courses) {
@@ -88,12 +104,12 @@ function loadSchool() {
                     $('main').empty();
                     $('main').html(temp)
                     for (let i = 0; i < students.length; i++) {
-                        $('#here').append("<li onclick=' showStudentById(" + students[i].id + ")' class='list-group-item'>"
+                        $('#here').append("<li onclick=' showObjById(" + students[i].id + ",`students`)' class='list-group-item'>"
                             + students[i].name + "<img class ='small-pic' src=" + students[i].image + "></li>")
 
                     }
                     for (let i = 0; i < courses.length; i++) {
-                        $('#there').append("<li onclick=' showCourseById(" + courses[i].id + ")' class='list-group-item'>"
+                        $('#there').append("<li onclick=' showObjById(" + courses[i].id + ",`courses`)' class='list-group-item'>"
                             + courses[i].name + "<img class ='small-pic' src=" + courses[i].image + "></li>")
                     }
                 })
@@ -109,7 +125,7 @@ function loadAdmins() {
                 $('main').empty();
                 $('main').html(temp)
                 for (let i = 0; i < admins.length; i++) {
-                    $('#here').append("<li onclick='showAdminById(" + admins[i].id + ")' class='list-group-item'>"
+                    $('#here').append("<li onclick='showObjById(" + admins[i].id + ",`admins`)' class='list-group-item'>"
                      + admins[i].name + "<img class ='small-pic' src=" + admins[i].image + "></li>")
                 }
                 $('#main').html("<h1 class = 'jumbotron'>number of admins is: <hr>" + admins.length + "</h1>")
@@ -153,22 +169,40 @@ function buildRadioBtns(table) {
         $('#id').append("<br><input type='radio' value='" + array[index].id +"'>" + array[index].name)
     }
 }
-
 function showCreateForm(table, tempName, dropdowntable) {
     app.getTemp('tamplates/view/' + tempName).done(function (temp) {
         $('#main').empty();
         $('#main').append(temp)
         $(document).ready(function () {
-            $('#add').click({ table: table },loadImage)
+            $('#add').click({ table: table },submitForm)
             $('#main').addClass('jumbotron')
             dropdowntable == 'courses' ? buildRadioBtns(dropdowntable) : showDropdown(dropdowntable);
         })
     })
 }
-function signOut() {
-    sessionStorage.clear();
-    location.reload();
-
+function showEditForm(table, tempName) {
+    app.getTemp('tamplates/view/' + tempName).done(function (temp) {
+        $('#main').empty();
+        $('#main').append(temp)
+        $(document).ready(function () {
+            $('#add').click({ table: table },EditForm)
+            $('#main').addClass('jumbotron')
+           table == 'students' ? buildRadioBtns('courses') : showDropdown('roles');
+        })
+    })
+}
+function submitForm(event){
+    event.preventDefault();
+    console.log('jhdjs')
+    var form = $('form')[0];
+    var formData = new FormData(form);
+    var table =event.data.table;
+    console.log(table)
+    formData.append('action',table);
+    console.log(formData)
+    app.insertImage(table,formData).done(()=>{app.insertNewData(table,formData);}).done((res)=>{
+      table == 'courses'||'students'?loadSchool():loadAdmins()
+   })
 }
 function getCoursesAndStudents(callback) {
     app.getStatmentById('students_courses', 'get all coursse and statments').done(function (res) {
@@ -176,7 +210,6 @@ function getCoursesAndStudents(callback) {
         callback()
     })
 }
-
 function getCourses(callback) {
     app.getStatmentById('courses', 'all').done(function (courses) {
         courses = JSON.parse(courses);
@@ -211,14 +244,14 @@ function getAdmins(callback) {
         var adminsArray = []
         for (let i = 0; i < admins.length; i++) {
             var v = Object.values(admins[i])
-            var adminObject = new Student(...v)
+            var adminObject = new Admin(...v)
             adminsArray.push(adminObject)
         }
         window.caches.admins = adminsArray
         callback(adminsArray)
     })
 }
-function getRoles(callback) {
+function getRoles(callback) { 
     app.getStatmentById('roles', 'all').done(function (roles) {
         roles = JSON.parse(roles);
         var rolesArray = []
@@ -231,28 +264,13 @@ function getRoles(callback) {
         callback(rolesArray)
     })
 }
-
-
-
-
-
-
 function buildBottens(table, obj) {
     $('#delete').click(function () {
         deleteCourse(obj.id, table)
     })
     $('#edit').click(function () {
-        showEditForm(obj);
+        showEditForm(table ,table+'UpdateForm.html');
     })
-}
-function addList(array, callback) {
-    console.log(array)
-    for (let i = 0; i < array.length; i++) {
-        console.log(array[i].name)
-        var il = document.createElement('div')
-        il.innerText = array[i].name;
-        callback(il)
-    }
 }
 function getObjById(id, table, callback) {
     var array = caches[table]
@@ -260,9 +278,11 @@ function getObjById(id, table, callback) {
         if (array[i].id == id) callback(array[i])
     }
 }
+function signOut() {
+    sessionStorage.clear();
+    location.reload();
 
-
-
+}
 $('a#school').click(loadSchool)
 $('a#admins').click(loadAdmins)
 $('a#role').click(signOut)

@@ -1,4 +1,5 @@
 <?php
+  require_once '../commen/password-handler.php';
     
  class  AdminModel{
     private $id;
@@ -18,6 +19,10 @@
     }
  
     public function setVar($var,$value){
+        if ($var == 'password'){
+           $ph = new PasswordHandler;
+          $value = $ph->getHash($value);
+        }
          $this->$var=$value;
     }
     public function getAllParams(){

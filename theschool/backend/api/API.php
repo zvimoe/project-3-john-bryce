@@ -8,8 +8,8 @@ session_start();
    
    $debugMode = false;
    if ($debugMode == true){
-    $meth ='GET';
-    $action = 'roles';
+    $meth ='POST';
+    $action = 'admins';
     $adata = array('c_id'=>'21','s_id'=>'1');
    }
    else{
@@ -37,10 +37,11 @@ session_start();
  switch($action){
        case "login":
        $a = new AdminApi;
-       $a = $a->login($adata);
-       $permissionId = $a->getAllParams();
+       $m = $a->login($adata);
+       $permissionId = $m->getVar('id');
        $_SESSION['permission'] = $permissionId;
-       echo json_encode($permissionId);
+       $data = $m->getAllParams();
+       echo json_encode($data);
        break;
        case "students":
        $s=new StudentApi;

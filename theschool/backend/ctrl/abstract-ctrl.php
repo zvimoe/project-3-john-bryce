@@ -3,15 +3,14 @@
  require_once "../commen/dal.php";
  
   abstract class Ctrl{
-       public function create($model){
+        public function create($model){
                $data=$model->getAllParams();
                $bl=new BLL;
                print_r($data);
                $query=$bl->create($data,$this->table);
                $con=new DAL('theschool');
                $con->set($query[0],$query[1]);
-       }
-
+        }
         public function getById($model,$id){
            
             $bl = new BLL;

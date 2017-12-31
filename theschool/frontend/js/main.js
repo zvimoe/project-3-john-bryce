@@ -208,11 +208,21 @@ function submitForm(event){
           $('#main').append('newcourseinsertedtemp')
           break;
           case 'students':
-          let courses = $('.courses')
-          break;
-          
+          let inputs = $('div#id input')
+          let courses = [];   
+          for (let i = 0; i < inputs.length; i++) {
+              const element = inputs[i];
+              if(element.checked==true){
+                  courses.push(element.value)
+              }
+          }  
+          setCoursesOfStudent(courses)
+          formData.append()
       }
    })
+}
+function setCoursesOfStudent(courses){
+
 }
 function getCoursesAndStudents(callback) {
     app.getStatmentById('students_courses', 'get all coursse and statments').done(function (res) {

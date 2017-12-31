@@ -201,7 +201,17 @@ function submitForm(event){
     formData.append('action',table);
     console.log(formData)
     app.insertImage(table,formData).done(()=>{app.insertNewData(table,formData);}).done((res)=>{
-      table == 'courses'||'students'?loadSchool():loadAdmins()
+    
+      switch(table){
+          case 'courses':
+          loadSchool()
+          $('#main').append('newcourseinsertedtemp')
+          break;
+          case 'students':
+          let courses = $('.courses')
+          break;
+          
+      }
    })
 }
 function getCoursesAndStudents(callback) {

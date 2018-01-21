@@ -216,6 +216,7 @@ function submitForm(event){
                   courses.push(element.value)
               }
           }  
+          var id = window.caches.studentArray[window.caches.studentArray-1]  
           setCoursesOfStudent(courses)
           formData.append()
       }

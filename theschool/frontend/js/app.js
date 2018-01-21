@@ -3,7 +3,7 @@ var app = {
     getTemp: function (url) {
         return $.ajax(url)
     },
-    getStatmentById: function (table, id) {
+    getStatment: function (table, id) {
         return $.ajax({
             url: "../backend/api/API.php",
             type: 'GET',
@@ -48,10 +48,11 @@ var app = {
         });
 
     },
-    objectDisployter: function (obj, tempUrl, callback) {
-
+    objectDisplayer: function (obj, tempUrl, callback) {  
+           // takes a obj and replaces all matching key mustaches
         var keys = Object.keys(obj);
         app.getTemp(tempUrl).done(function (temp) {
+            // takes a obj and replaces all matching key mustaches
             for (let i = 0; i < keys.length; i++) {
                 temp = temp.replace("{{" + keys[i] + "}}", obj[keys[i]]);
                 var index = 0
@@ -85,33 +86,18 @@ var app = {
         })
 
     },
-    MultiObjectDisployter(array, tempUrl, callback) {
-        for (let i = 0; i < array.length; i++) {
-            obj = array[i]
-            var keys = Object.keys(obj);
-            app.getTemp(tempUrl).done(function (temp) {
-                for (let j = 0; j < keys.length; j++) {
-                    temp = temp.replace("{{" + keys[j] + "}}", obj[keys[j]]);
-
-                }
-            })
-            callback(temp)
-        }
-    },
-    insertNewData: function (table, formData) {
-        formData.append('action', table)
+    insertNewData: function (table, formdata) {
+        formdata.append('action', table)
+        var obj = formdata.getAll('data')
+        console.log(obj )
         return $.ajax({
             url: "../backend/api/API.php",
             cache: false,
             contentType: false,
             processData: false,
             type: 'POST',
-            data: formData
-
+            data: formdata
         });
     }
 
 }
-
-
-

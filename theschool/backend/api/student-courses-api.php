@@ -24,7 +24,14 @@
       }
       public function add($data){
         $bl = new BLL;
-        $quary = $bl->create($data,$this->table);
+          $arrayOfstatments =json_decode($data);
+          $prep ="";
+          foreach($arrayOfstatments as $stmt){
+            
+          }
+          $quary="INSERT INTO `students_courses` (`s_id`, `c_id`) VALUES+$prep";
+    
+       
         $con = new DAL('theschool');
         $stmt = $con->set($quary[0],$quary[1]);
         

@@ -42,7 +42,7 @@ function load(admin) {
 }
 function showStudentById(id) {
     getObjById(id, 'students', function (student) {
-        app.objectDisployter(student, 'tamplates/view/studentInfo.html', function (temp) {
+        app.objectDisplayer(student, 'tamplates/view/studentInfo.html', function (temp) {
             let elem = $("#main");
             elem.empty()
             elem.append(temp);
@@ -53,7 +53,7 @@ function showStudentById(id) {
 }
 function showCourseById(id) {
     getObjById(id, 'courses', function (course) {
-        app.objectDisployter(course, 'tamplates/view/coursesInfo.html', function (temp) {
+        app.objectDisplayer(course, 'tamplates/view/coursesInfo.html', function (temp) {
             let elem = $("#main");
             elem.empty()
             elem.append(temp);
@@ -64,9 +64,9 @@ function showCourseById(id) {
 
 }
 function showAdminById(id) {
-    app.getStatmentById('admins', id).done(function (admin) {
+    app.getStatment('admins', id).done(function (admin) {
         admin = JSON.parse(admin);
-        app.objectDisployter(admin, 'tamplates/view/adminInfo.html', function (temp) {
+        app.objectDisplayer(admin, 'tamplates/view/adminInfo.html', function (temp) {
             let elem = $("#main");
             elem.empty()
             elem.append(temp);
@@ -88,7 +88,7 @@ function showObjById(id,table) {
             url += 'studentInfo.html';
             break;
         }
-        app.objectDisployter(obj,url,function (temp) {
+        app.objectDisplayer(obj,url,function (temp) {
             let elem = $("#main");
             elem.empty()
             elem.append(temp);
@@ -205,7 +205,7 @@ function submitForm(event){
       switch(table){
           case 'courses':
           loadSchool()
-          $('#main').append('newcourseinsertedtemp')
+          $('#main').append('new course inserted')
           break;
           case 'students':
           let inputs = $('div#id input')
@@ -216,23 +216,28 @@ function submitForm(event){
                   courses.push(element.value)
               }
           }  
-          var id = window.caches.studentArray[window.caches.studentArray-1]  
-          setCoursesOfStudent(courses)
-          formData.append()
+          var student = window.caches.students[window.caches.students.length-1];
+          addCoursesOfStudent(courses,student.id,'student')
       }
    })
 }
-function setCoursesOfStudent(courses){
-
+function addCoursesOfStudent(courses,id){
+    var data = []
+    courses.array.forEach(course => {
+     data.push({id:course})   
+    });
+   var data = new FormData()
+   data.append('data',data)
+    app.insertNewData(`courses_students`,data)
 }
 function getCoursesAndStudents(callback) {
-    app.getStatmentById('students_courses', 'get all coursse and statments').done(function (res) {
+    app.getStatment('students_courses', 'get all coursse and statments').done(function (res) {
         window.caches.studentCourses = JSON.parse(res)
         callback()
     })
 }
 function getCourses(callback) {
-    app.getStatmentById('courses', 'all').done(function (courses) {
+    app.getStatment('courses', 'all').done(function (courses) {
         courses = JSON.parse(courses);
         var courseArray = []
         for (let i = 0; i < courses.length; i++) {
@@ -246,7 +251,7 @@ function getCourses(callback) {
     });
 }
 function getStudents(callback) {
-    app.getStatmentById('students', 'all').done(function (students) {
+    app.getStatment('students', 'all').done(function (students) {
         students = JSON.parse(students);
         var studentArray = []
         for (let i = 0; i < students.length; i++) {
@@ -260,7 +265,7 @@ function getStudents(callback) {
     })
 }
 function getAdmins(callback) {
-    app.getStatmentById('admins', 'all').done(function (admins) {
+    app.getStatment('admins', 'all').done(function (admins) {
         admins = JSON.parse(admins);
         var adminsArray = []
         for (let i = 0; i < admins.length; i++) {
@@ -273,7 +278,7 @@ function getAdmins(callback) {
     })
 }
 function getRoles(callback) { 
-    app.getStatmentById('roles', 'all').done(function (roles) {
+    app.getStatment('roles', 'all').done(function (roles) {
         roles = JSON.parse(roles);
         var rolesArray = []
         for (let i = 0; i < roles.length; i++) {

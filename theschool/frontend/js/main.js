@@ -96,7 +96,7 @@ function showObjById(id,table) {
         });
     })
 }
-function loadSchool() {
+function loadSchool(callback) {
     getCoursesAndStudents(function () {
         getCourses(function (courses) {
             getStudents(function (students) {
@@ -116,6 +116,8 @@ function loadSchool() {
             })
         })
     })
+    if(callback!=null)
+    callback()
 
 }
 function loadAdmins() {
@@ -215,20 +217,29 @@ function submitForm(event){
               if(element.checked==true){
                   courses.push(element.value)
               }
-          }  
-          var student = window.caches.students[window.caches.students.length-1];
-          addCoursesOfStudent(courses,student.id,'student')
+          }
+          getStudents(function(studentArray){
+          var student = studentArray[studentArray.length-1];
+           addCoursesOfStudent(courses,student.id,function(){
+              loadSchool(function(){
+              showObjById(student.id,`students`)
+              })
+          })
+        })
       }
    })
 }
-function addCoursesOfStudent(courses,id){
-    var data = []
-    courses.array.forEach(course => {
-     data.push({id:course})   
+function addCoursesOfStudent(courses,id,callback){
+    var arrayData = []
+    courses.forEach(course => {
+        var obj={}
+        obj[id] = course
+        arrayData.push(obj)   
     });
-   var data = new FormData()
-   data.append('data',data)
-    app.insertNewData(`courses_students`,data)
+    console.log(arrayData)
+   var formdata =new FormData
+   formdata.append('data',JSON.stringify(arrayData))
+   app.insertNewData('students_courses',formdata).done(callback())
 }
 function getCoursesAndStudents(callback) {
     app.getStatment('students_courses', 'get all coursse and statments').done(function (res) {

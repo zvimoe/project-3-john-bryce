@@ -88,8 +88,6 @@ var app = {
     },
     insertNewData: function (table, formdata) {
         formdata.append('action', table)
-        var obj = formdata.getAll('data')
-        console.log(obj )
         return $.ajax({
             url: "../backend/api/API.php",
             cache: false,

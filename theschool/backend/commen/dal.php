@@ -51,5 +51,14 @@
                     $stmt->execute($exct);
                                     
             }
+            public function setWithoutExc($query) {
+                
+                                    $pdo = new PDO($this->dsn, $this->user, $this->pass, $this->opt);
+                                        
+                                   $pdo->query($query);
+                                   
+                                               
+                            }
+
     }
 ?>

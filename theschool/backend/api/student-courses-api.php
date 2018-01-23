@@ -23,19 +23,16 @@
         return $stmt;
       }
       public function add($data){
-        $bl = new BLL;
-          $arrayOfstatments =json_decode($data);
-          $prep ="";
-          foreach($arrayOfstatments as $stmt){
-            
-          }
-          $quary="INSERT INTO `students_courses` (`s_id`, `c_id`) VALUES+$prep";
-    
-       
-        $con = new DAL('theschool');
-        $stmt = $con->set($quary[0],$quary[1]);
-        
-  
+         $data = $data['data'];
+         $bl = new BLL;
+         $toSwitch = array("{", "}", "[","]",":");
+         $switchTo   = array("(", ")","","",",");
+         $prep=str_replace($toSwitch,$switchTo ,$data);
+         $quary="INSERT INTO `students_courses` (`s_id`, `c_id`) VALUES $prep";
+         echo $quary;
+         $con = new DAL('theschool');
+         $stmt = $con->setWithoutExc($quary);
+         return $stmt;
       }
 
   }

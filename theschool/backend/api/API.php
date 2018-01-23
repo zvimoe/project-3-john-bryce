@@ -28,10 +28,13 @@ session_start();
         $action = $_REQUEST['action'];
       }
       if(isset($_FILES["picture"])){
-        $adata= $_POST;
-        $adata['image'] = "../frontend/pictures/".$_FILES["picture"]["name"];
-        $action=$adata['action'];
+        $_POST['image'] = "../frontend/pictures/".$_FILES["picture"]["name"];
       };
+      if(isset($_POST['action'])){
+        $adata= $_POST;
+        $action=$adata['action'];
+      }
+      
   }
    
  switch($action){

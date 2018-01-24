@@ -1,41 +1,45 @@
 'use strict';
-(function () {
-    if (!sessionStorage.getItem('admin')) {
-        app.getTemp('tamplates/login/login.html').done(function (data) {
 
-            $('main').html(data);
-        })
-    }
-    else {
-        load(sessionStorage.getItem('admin'))
-    }
-})();
+if (!sessionStorage.getItem('user')) {
+    showLogin()
+}
+else {
+    load(sessionStorage.getItem('user'))
+}
+function showLogin() {
+    app.getTemp('tamplates/login/login.html').done(function (data) {
+
+        $('main').html(data);
+    })
+}
 
 function login() {
+    
     let username = $("#username").val()
     let password = $("#password").val()
     let data = {
         name: username,
         password: password
     }
-    app.loginAjax('login', data).done(function (admin) {
-        sessionStorage.setItem('admin', admin)
-        load(admin)
+    app.loginAjax('login', data).done(function (user) {
+        sessionStorage.setItem('user', user)
+        load(user)
     });
 }
 function load(admin) {
     let a = JSON.parse(admin);
+    $('#userpic').attr("src",a.image);
+    $('#name').append('hi ' + a.name)
+    $('#role').append('sign out')
+    $('#school').css('display','unset')
+
     switch (a.role_id) {
+        case 1:
         case 2:
-            $('#name').append('hi ' + a.name)
-            $('#role').append('sign out')
+            $('#admins').css('display', 'unset');
             loadAdmins()
             break;
-        case 1:
-            $('#name').append('hi ' + a.name)
-            $('#role').append('sign out')
-            console.log('works')
-            $('#admins').css('display', 'none');
+        case 3:
             loadSchool()
             break;
     }
@@ -74,27 +78,37 @@ function showAdminById(id) {
         });
     })
 }
-function showObjById(id,table) {
-    getObjById( id,table,function (obj) {
-        var url ='tamplates/view/'
-        switch(table){
+function showObjById(id, table) {
+    getObjById(id, table, function (obj) {
+        var url = 'tamplates/view/'
+        switch (table) {
             case 'admins':
-            url += 'adminInfo.html'
-            break;
+                url += 'adminInfo.html'
+                break;
             case 'courses':
-            url += 'coursesInfo.html';
-            break;
+                url += 'coursesInfo.html';
+                break;
             case 'students':
-            url += 'studentInfo.html';
-            break;
+                url += 'studentInfo.html';
+                break;
         }
-        app.objectDisplayer(obj,url,function (temp) {
+        app.objectDisplayer(obj, url, function (temp) {
             let elem = $("#main");
             elem.empty()
             elem.append(temp);
-            buildBottens(table,obj)
+            buildBottens(table, obj)
         });
     })
+}
+function showUser(){
+    var user = JSON.parse(sessionStorage.getItem('user'))
+    
+    app.objectDisplayer(user, 'tamplates/view/adminInfo.html', function (temp) {
+        let elem = $('main');
+        elem.empty()
+        elem.append(temp);
+        buildBottens('admins', user)
+    });
 }
 function loadSchool(callback) {
     getCoursesAndStudents(function () {
@@ -116,19 +130,19 @@ function loadSchool(callback) {
             })
         })
     })
-    if(callback!=null)
-    callback()
+    if (callback != null)
+        callback()
 
 }
 function loadAdmins() {
     getAdmins(function (admins) {
-        getRoles(function(roles) {
+        getRoles(function (roles) {
             app.getTemp('tamplates/home-page/admin-page.html').done(function (temp) {
                 $('main').empty();
                 $('main').html(temp)
                 for (let i = 0; i < admins.length; i++) {
                     $('#here').append("<li onclick='showObjById(" + admins[i].id + ",`admins`)' class='list-group-item'>"
-                     + admins[i].name + "<img class ='small-pic' src=" + admins[i].image + "></li>")
+                        + admins[i].name + "<img class ='small-pic' src=" + admins[i].image + "></li>")
                 }
                 $('#main').html("<h1 class = 'jumbotron'>number of admins is: <hr>" + admins.length + "</h1>")
             })
@@ -156,11 +170,11 @@ function showDropdown(tabel) {
     var array = window.caches[tabel]
     console.log(array)
     var container = document.createElement('select')
-    container.name ='role_id'
+    container.name = 'role_id'
     for (let index = 0; index < array.length; index++) {
         var option = document.createElement('option')
-        option.value=array[index].id 
-        option.innerText=array[index].name
+        option.value = array[index].id
+        option.innerText = array[index].name
         container.appendChild(option)
     }
     $('#id').append(container)    // <-- $('div select').val() to get value -->
@@ -168,7 +182,7 @@ function showDropdown(tabel) {
 function buildRadioBtns(table) {
     var array = window.caches[table]
     for (let index = 0; index < array.length; index++) {
-        $('#id').append("<br><input type='radio' value='" + array[index].id +"'>" + array[index].name)
+        $('#id').append("<br><input type='radio' value='" + array[index].id + "'>" + array[index].name)
     }
 }
 function showCreateForm(table, tempName, dropdowntable) {
@@ -176,7 +190,7 @@ function showCreateForm(table, tempName, dropdowntable) {
         $('#main').empty();
         $('#main').append(temp)
         $(document).ready(function () {
-            $('#add').click({ table: table },submitForm)
+            $('#add').click({ table: table }, submitForm)
             $('#main').addClass('jumbotron')
             dropdowntable == 'courses' ? buildRadioBtns(dropdowntable) : showDropdown(dropdowntable);
         })
@@ -187,59 +201,59 @@ function showEditForm(table, tempName) {
         $('#main').empty();
         $('#main').append(temp)
         $(document).ready(function () {
-            $('#add').click({ table: table },EditForm)
+            $('#add').click({ table: table }, EditForm)
             $('#main').addClass('jumbotron')
-           table == 'students' ? buildRadioBtns('courses') : showDropdown('roles');
+            table == 'students' ? buildRadioBtns('courses') : showDropdown('roles');
         })
     })
 }
-function submitForm(event){
+function submitForm(event) {
     event.preventDefault();
     console.log('jhdjs')
     var form = $('form')[0];
     var formData = new FormData(form);
-    var table =event.data.table;
+    var table = event.data.table;
     console.log(table)
-    formData.append('action',table);
+    formData.append('action', table);
     console.log(formData)
-    app.insertImage(table,formData).done(()=>{app.insertNewData(table,formData);}).done((res)=>{
-    
-      switch(table){
-          case 'courses':
-          loadSchool()
-          $('#main').append('new course inserted')
-          break;
-          case 'students':
-          let inputs = $('div#id input')
-          let courses = [];   
-          for (let i = 0; i < inputs.length; i++) {
-              const element = inputs[i];
-              if(element.checked==true){
-                  courses.push(element.value)
-              }
-          }
-          getStudents(function(studentArray){
-          var student = studentArray[studentArray.length-1];
-           addCoursesOfStudent(courses,student.id,function(){
-              loadSchool(function(){
-              showObjById(student.id,`students`)
-              })
-          })
-        })
-      }
-   })
+    app.insertImage(table, formData).done(() => { app.insertNewData(table, formData); }).done((res) => {
+
+        switch (table) {
+            case 'courses':
+                loadSchool()
+                $('#main').append('new course inserted')
+                break;
+            case 'students':
+                let inputs = $('div#id input')
+                let courses = [];
+                for (let i = 0; i < inputs.length; i++) {
+                    const element = inputs[i];
+                    if (element.checked == true) {
+                        courses.push(element.value)
+                    }
+                }
+                getStudents(function (studentArray) {
+                    var student = studentArray[studentArray.length - 1];
+                    addCoursesOfStudent(courses, student.id, function () {
+                        loadSchool(function () {
+                            showObjById(student.id, `students`)
+                        })
+                    })
+                })
+        }
+    })
 }
-function addCoursesOfStudent(courses,id,callback){
+function addCoursesOfStudent(courses, id, callback) {
     var arrayData = []
     courses.forEach(course => {
-        var obj={}
+        var obj = {}
         obj[id] = course
-        arrayData.push(obj)   
+        arrayData.push(obj)
     });
     console.log(arrayData)
-   var formdata =new FormData
-   formdata.append('data',JSON.stringify(arrayData))
-   app.insertNewData('students_courses',formdata).done(callback())
+    var formdata = new FormData
+    formdata.append('data', JSON.stringify(arrayData))
+    app.insertNewData('students_courses', formdata).done(callback())
 }
 function getCoursesAndStudents(callback) {
     app.getStatment('students_courses', 'get all coursse and statments').done(function (res) {
@@ -288,7 +302,7 @@ function getAdmins(callback) {
         callback(adminsArray)
     })
 }
-function getRoles(callback) { 
+function getRoles(callback) {
     app.getStatment('roles', 'all').done(function (roles) {
         roles = JSON.parse(roles);
         var rolesArray = []
@@ -306,7 +320,7 @@ function buildBottens(table, obj) {
         deleteCourse(obj.id, table)
     })
     $('#edit').click(function () {
-        showEditForm(table ,table+'UpdateForm.html');
+        showEditForm(table, table + 'UpdateForm.html');
     })
 }
 function getObjById(id, table, callback) {
@@ -323,6 +337,8 @@ function signOut() {
 $('a#school').click(loadSchool)
 $('a#admins').click(loadAdmins)
 $('a#role').click(signOut)
+$('a#back').click(signOut)
+$('a#name').click(showUser)
 
 
 

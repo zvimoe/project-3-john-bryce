@@ -1,7 +1,7 @@
 <?php
     // require_once "../commen/bl.php";
     // require_once "../commen/dal.php";
-    require_once "../commen/password-handler.php";
+    // require_once "../commen/password-handler.php";
     require_once "abstract-ctrl.php";
     
     
@@ -10,8 +10,9 @@
 
         public function login($admin){
             $name = $admin->getVar('name');
-            $ph=new PasswordHandler();
-            $password = $ph->getHash($admin->getVar('password'));
+            // $ph=new PasswordHandler();
+            // $password = $ph->getHash($admin->getVar('password'));
+            $password = $admin->getVar('password');
             $bl = new BLL;
             $quary = $bl->login($name,$password,'admins');
             $con = new DAL('theschool');

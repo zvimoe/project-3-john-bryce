@@ -17,3 +17,6 @@ li {
   position: relative;
   bottom: 9px;
 }
+#school,#admins{
+  display:none
+ }

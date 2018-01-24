@@ -5,6 +5,7 @@ session_start();
    require_once "course-api.php";
    require_once "student-courses-api.php";
    require_once "roles-api.php";
+   require_once "../commen/password-handler.php";
    
    $debugMode = false;
    if ($debugMode == true){
@@ -33,6 +34,10 @@ session_start();
       if(isset($_POST['action'])){
         $adata= $_POST;
         $action=$adata['action'];
+      }
+      if(isset($adata['password'])){
+        $ph=new PasswordHandler();
+        $adata['password'] = $ph->getHash($adata['password']);
       }
       
   }

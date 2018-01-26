@@ -4,18 +4,15 @@ session_start();
    require_once "student-api.php";
    require_once "course-api.php";
    require_once "student-courses-api.php";
-   require_once "roles-api.php";
-   require_once "../commen/password-handler.php";
-   
+   require_once "roles-api.php"; 
    $debugMode = false;
    if ($debugMode == true){
-    $meth ='POST';
-    $action = 'admins';
-    $adata = array('c_id'=>'21','s_id'=>'1');
+    $_SESSION['permission'] = '1';
+    $meth ='DELETE';
+    $action = 'students_courses';
+    $adata =  array('id'=>'78','colum'=>'s_id');// 'name'=>'fdgsfdg','role_id'=>'1','image'=>'jghgchxg','phone'=>'gdhhdhgs','email'=>'hsghgshd','password'=>'56523',);
    }
    else{
-   
-
         $meth= strtoupper($_SERVER['REQUEST_METHOD']);
 
       if($meth==  'PUT' || $meth == 'DELETE') {
@@ -35,21 +32,22 @@ session_start();
         $adata= $_POST;
         $action=$adata['action'];
       }
-      if(isset($adata['password'])){
-        $ph=new PasswordHandler();
-        $adata['password'] = $ph->getHash($adata['password']);
-      }
-      
+     
   }
    
  switch($action){
        case "login":
        $a = new AdminApi;
-       $m = $a->login($adata);
-       $permissionId = $m->getVar('id');
-       $_SESSION['permission'] = $permissionId;
-       $data = $m->getAllParams();
-       echo json_encode($data);
+       $model = $a->login($adata);
+       if($model){ 
+          $data = $model->getAllParams();
+          $permissionId = $data['id'];
+          $_SESSION['permission'] = $permissionId;
+          echo json_encode($data);
+        }
+        else {
+          echo ' no user found';
+        };
        break;
        case "students":
        $s=new StudentApi;
@@ -76,7 +74,7 @@ session_start();
        case 'roles':
        $r=new RolesApi;
        $res = $r->getRoles($action);
-       echo json_encode($res);
+       echo $res;
        break;
        
 

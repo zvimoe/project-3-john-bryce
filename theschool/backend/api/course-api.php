@@ -16,19 +16,11 @@ require_once "abstract-api.php";
           $mc->create($m);
           return "new course inserted";
       }
-      function select($params){
-          if($params)
-        $m = new \model\Course;
+      function select(){
         $mc = new CtrlCourse;
-        if($params['id']=='all'){
-                $allCourses=$mc->getAll();
-                return $this->multiModelsToJson($allCourses);
-            }
-        else{
-            $course=$mc->getbyId($m,$params['id']);
-            $c=$course->getAllParams();
-            return json_encode($c);
-        }
+        $allCourses=$mc->getAll();
+        return $this->multiModelsToJson($allCourses);
+        
       } 
       function update($params){
         $m = new \model\Course;

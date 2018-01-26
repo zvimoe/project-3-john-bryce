@@ -37,9 +37,8 @@ Course.prototype.addStudents = function () {               // gets the courses o
         var studentId = sc[i].s_id;
         var courseId = sc[i].c_id;
         if (courseId == this.id) {
-            app.getStatment('students', studentId).done(function (student) {
-                var s =JSON.parse(student)
-                students.push(s);
+           getObjById(studentId,'students',function (student) {
+                students.push(student);
                 
             })
         }
@@ -54,10 +53,8 @@ Student.prototype.addCourses = function () {               // gets the students 
         var studentId = sc[i].s_id;
         var courseId = sc[i].c_id;
         if (studentId == this.id) {
-            app.getStatment('courses', courseId).done(function (course) {
-                
-                var c =JSON.parse(course)
-                courses.push(c);
+           getObjById( courseId, 'courses',function (course) {
+               courses.push(course);
             })
            
         }

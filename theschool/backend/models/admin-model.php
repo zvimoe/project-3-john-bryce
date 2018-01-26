@@ -1,7 +1,6 @@
 <?php
-  require_once '../commen/password-handler.php';
-    
- class  AdminModel{
+namespace model;
+ class  Admin{
     private $id;
     private $name;
     private $role_id ;
@@ -9,20 +8,14 @@
     private $email;
     private $password;
     private $image;
-    function __construct($name,$password){       
-      $this->name=$name;
-      $this->password=$password;
-    }
+    
     public function getVar($var){
         return $this->$var;
          
     }
  
     public function setVar($var,$value){
-        if ($var == 'password'){
-           $ph = new PasswordHandler;
-          $value = $ph->getHash($value);
-        }
+        
          $this->$var=$value;
     }
     public function getAllParams(){

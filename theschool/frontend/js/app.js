@@ -4,37 +4,29 @@ var app = {
         return $.ajax(url)
     },
     getStatment: function (table, id) {
-        return $.ajax({
-            url: "../backend/api/API.php",
-            type: 'GET',
-            data: {
-                action: table,
-                data: { id: id }
-            },
 
-        });
+        return app.ajaxcall('GET', table, id)
+
     },
     loginAjax: function (table, data) {
+
+        return app.ajaxcall('GET', table,data)
+    },
+    deleteById: function (table, id) {
+        console.log(table)
+        return app.ajaxcall('DELETE', table, id)
+
+    },
+    ajaxcall: function (type, table, data) {
         return $.ajax({
             url: "../backend/api/API.php",
-            type: 'GET',
+            type: type,
             data: {
                 action: table,
                 data: data
             },
+            dataType: 'json' 
         });
-    },
-    deleteById: function (table, id) {
-        console.log(table)
-        return $.ajax({
-            url: "../backend/api/API.php",
-            type: "DELETE",
-            data: {
-                action: table,
-                data: id
-            },
-        });
-
     },
     insertImage: function (table, formData) {
         return $.ajax({
@@ -48,8 +40,8 @@ var app = {
         });
 
     },
-    objectDisplayer: function (obj, tempUrl, callback) {  
-           // takes a obj and replaces all matching key mustaches
+    objectDisplayer: function (obj, tempUrl, callback) {
+        // takes a obj and replaces all matching key mustaches
         var keys = Object.keys(obj);
         app.getTemp(tempUrl).done(function (temp) {
             // takes a obj and replaces all matching key mustaches
@@ -61,22 +53,22 @@ var app = {
                         if (index == 1) break;
                         var a = obj[keys[[i][index]]]
                         var list = document.createElement('ul')
-                        if(obj.__proto__.constructor.name=='Student'){
+                        if (obj.__proto__.constructor.name == 'Student') {
                             list.innerHTML = obj.name + ' is taking these fallowing courses'
                         }
-                        else{
-                            list.innerHTML = "the fallowing students are taking the "+obj.name+" course"
+                        else {
+                            list.innerHTML = "the fallowing students are taking the " + obj.name + " course"
                         }
-                       
+
                         for (let j = 0; j < a.length; j++) {
                             var li = document.createElement('li')
                             li.innerText = a[j].name
                             list.appendChild(li)
                         }
-                        temp =temp.replace('{{list}}',list.outerHTML)
+                        temp = temp.replace('{{list}}', list.outerHTML)
                     }
-                    if (index==0){
-                        temp =temp.replace('{{list}}',"")
+                    if (index == 0) {
+                        temp = temp.replace('{{list}}', "")
                     }
 
                 }

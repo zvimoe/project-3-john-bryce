@@ -1,6 +1,6 @@
 <?php
    namespace model;
-  class student{
+  class Student{
        private $id;
        private $name;
        private $phone;

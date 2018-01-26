@@ -8,7 +8,7 @@ require_once "abstract-api.php";
       
       
       function create($params){
-        $m = new \model\student;
+        $m = new \model\Student;
           foreach($params as $key=>$value){
               $m->setVar($key,$value);
           }
@@ -16,20 +16,11 @@ require_once "abstract-api.php";
           $mc->create($m);
           return "new student inserted";
       }
-      function select($params){
-          
-        $m = new \model\student;
+      function select(){
         $mc = new studentCtrl;
-        
-        if($params['id']=='all'){ 
-            $allStudents=$mc->getAll();
-           return  $this->multiModelsToJson($allStudents);
-          }
-        else{
-            $student=$mc->getById($m,$params['id']);
-            $s=$student->getAllParams();
-            return json_encode($s);
-        }
+        $allStudents=$mc->getAll();
+        return  $this->multiModelsToJson($allStudents);
+          
       }
       function update($params){
         $m = new \model\student;

@@ -1,6 +1,6 @@
 <?php
    namespace model;
-  class course{
+  class Course{
        private $id;
        private $name;
        private $description;

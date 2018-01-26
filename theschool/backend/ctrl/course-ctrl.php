@@ -5,13 +5,13 @@
    
      
 class CtrlCourse extends Ctrl {
-     protected $table='course';
+     protected $table='courses';
 
     // function to create multin Models
     protected function createMultipleModels($stmt){
         $Models=array();
         foreach($stmt as $row){
-            $st=new \model\course;
+            $st=new \model\Course;
             foreach($row as $key=>$value){
                 $st->setvar($key,$value);
             }

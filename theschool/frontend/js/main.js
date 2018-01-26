@@ -14,7 +14,7 @@ function showLogin() {
 }
 
 function login() {
-    
+
     let username = $("#username").val()
     let password = $("#password").val()
     let data = {
@@ -22,16 +22,19 @@ function login() {
         password: password
     }
     app.loginAjax('login', data).done(function (user) {
-        sessionStorage.setItem('user', user)
+        
+        sessionStorage.setItem('user', JSON.stringify(user))
         load(user)
+
     });
 }
 function load(admin) {
     let a = JSON.parse(admin);
-    $('#userpic').attr("src",a.image);
+    $('#welcome-banner').css('display', 'none')
+    $('#userpic').attr("src", a.image);
     $('#name').append('hi ' + a.name)
     $('#role').append('sign out')
-    $('#school').css('display','unset')
+    $('#school').css('display', 'unset')
 
     switch (a.role_id) {
         case 1:
@@ -43,40 +46,6 @@ function load(admin) {
             loadSchool()
             break;
     }
-}
-function showStudentById(id) {
-    getObjById(id, 'students', function (student) {
-        app.objectDisplayer(student, 'tamplates/view/studentInfo.html', function (temp) {
-            let elem = $("#main");
-            elem.empty()
-            elem.append(temp);
-            buildBottens('students', student)
-        })
-    })
-
-}
-function showCourseById(id) {
-    getObjById(id, 'courses', function (course) {
-        app.objectDisplayer(course, 'tamplates/view/coursesInfo.html', function (temp) {
-            let elem = $("#main");
-            elem.empty()
-            elem.append(temp);
-            buildBottens('courses', course)
-        })
-    })
-
-
-}
-function showAdminById(id) {
-    app.getStatment('admins', id).done(function (admin) {
-        admin = JSON.parse(admin);
-        app.objectDisplayer(admin, 'tamplates/view/adminInfo.html', function (temp) {
-            let elem = $("#main");
-            elem.empty()
-            elem.append(temp);
-            buildBottens('admins', admin)
-        });
-    })
 }
 function showObjById(id, table) {
     getObjById(id, table, function (obj) {
@@ -100,9 +69,9 @@ function showObjById(id, table) {
         });
     })
 }
-function showUser(){
+function showUser() {
     var user = JSON.parse(sessionStorage.getItem('user'))
-    
+
     app.objectDisplayer(user, 'tamplates/view/adminInfo.html', function (temp) {
         let elem = $('main');
         elem.empty()
@@ -111,27 +80,31 @@ function showUser(){
     });
 }
 function loadSchool(callback) {
-    getCoursesAndStudents(function () {
+    getStudents(function (students) {
         getCourses(function (courses) {
-            getStudents(function (students) {
-                app.getTemp('tamplates/home-page/school-page.html').done(function (temp) {
-                    $('main').empty();
-                    $('main').html(temp)
-                    for (let i = 0; i < students.length; i++) {
-                        $('#here').append("<li onclick=' showObjById(" + students[i].id + ",`students`)' class='list-group-item'>"
-                            + students[i].name + "<img class ='small-pic' src=" + students[i].image + "></li>")
+            getCoursesAndStudents(function () {
+                applyCoursesStudents(courses, students, function () {
+                    app.getTemp('tamplates/home-page/school-page.html').done(function (temp) {
+                        $('main').empty();
+                        $('main').html(temp)
+                        for (let i = 0; i < students.length; i++) {
+                            $('#here').append("<li onclick=' showObjById(" + students[i].id + ",`students`)' class='list-group-item'>"
+                                + students[i].name + "<img class ='small-pic' src=" + students[i].image + "></li>")
 
-                    }
-                    for (let i = 0; i < courses.length; i++) {
-                        $('#there').append("<li onclick=' showObjById(" + courses[i].id + ",`courses`)' class='list-group-item'>"
-                            + courses[i].name + "<img class ='small-pic' src=" + courses[i].image + "></li>")
-                    }
+                        }
+                        for (let i = 0; i < courses.length; i++) {
+                            $('#there').append("<li onclick=' showObjById(" + courses[i].id + ",`courses`)' class='list-group-item'>"
+                                + courses[i].name + "<img class ='small-pic' src=" + courses[i].image + "></li>")
+                        }
+                    })
                 })
             })
         })
     })
-    if (callback != null)
+
+    if (callback && callback.type != 'click') {
         callback()
+    }
 
 }
 function loadAdmins() {
@@ -150,7 +123,7 @@ function loadAdmins() {
     })
 }
 function deleteCourse(id, table) {
-    if (confirm("this course will be deleted with no return do yo wont to continue"))
+    if (confirm("this " + table + " will be deleted with no return do yo wont to continue"))
         app.deleteById(table, id).done(function (res) {
             let message = ""
             if (typeof (res) == 'string') {
@@ -190,7 +163,8 @@ function showCreateForm(table, tempName, dropdowntable) {
         $('#main').empty();
         $('#main').append(temp)
         $(document).ready(function () {
-            $('#add').click({ table: table }, submitForm)
+        $('#add').click({ table: table }, submitForm)
+
             $('#main').addClass('jumbotron')
             dropdowntable == 'courses' ? buildRadioBtns(dropdowntable) : showDropdown(dropdowntable);
         })
@@ -209,13 +183,11 @@ function showEditForm(table, tempName) {
 }
 function submitForm(event) {
     event.preventDefault();
-    console.log('jhdjs')
     var form = $('form')[0];
+    console.log(form)
     var formData = new FormData(form);
     var table = event.data.table;
-    console.log(table)
     formData.append('action', table);
-    console.log(formData)
     app.insertImage(table, formData).done(() => { app.insertNewData(table, formData); }).done((res) => {
 
         switch (table) {
@@ -250,25 +222,33 @@ function addCoursesOfStudent(courses, id, callback) {
         obj[id] = course
         arrayData.push(obj)
     });
-    console.log(arrayData)
+    console.log(JSON.stringify(arrayData))
     var formdata = new FormData
     formdata.append('data', JSON.stringify(arrayData))
     app.insertNewData('students_courses', formdata).done(callback())
 }
 function getCoursesAndStudents(callback) {
     app.getStatment('students_courses', 'get all coursse and statments').done(function (res) {
-        window.caches.studentCourses = JSON.parse(res)
+        window.caches.studentCourses = res
         callback()
     })
 }
+function applyCoursesStudents(courses, students, callback) {
+    courses.forEach(course => {
+        course.addStudents()
+    });
+    students.forEach(student => {
+        student.addCourses()
+    });
+    callback();
+
+}
 function getCourses(callback) {
     app.getStatment('courses', 'all').done(function (courses) {
-        courses = JSON.parse(courses);
         var courseArray = []
         for (let i = 0; i < courses.length; i++) {
             var v = Object.values(courses[i])
             var courseObject = new Course(...v)
-            courseObject.addStudents()
             courseArray.push(courseObject)
         }
         window.caches.courses = courseArray;
@@ -277,12 +257,10 @@ function getCourses(callback) {
 }
 function getStudents(callback) {
     app.getStatment('students', 'all').done(function (students) {
-        students = JSON.parse(students);
         var studentArray = []
         for (let i = 0; i < students.length; i++) {
             var v = Object.values(students[i])
             var studentObject = new Student(...v)
-            studentObject.addCourses()
             studentArray.push(studentObject)
         }
         window.caches.students = studentArray
@@ -291,7 +269,6 @@ function getStudents(callback) {
 }
 function getAdmins(callback) {
     app.getStatment('admins', 'all').done(function (admins) {
-        admins = JSON.parse(admins);
         var adminsArray = []
         for (let i = 0; i < admins.length; i++) {
             var v = Object.values(admins[i])
@@ -304,7 +281,6 @@ function getAdmins(callback) {
 }
 function getRoles(callback) {
     app.getStatment('roles', 'all').done(function (roles) {
-        roles = JSON.parse(roles);
         var rolesArray = []
         for (let i = 0; i < roles.length; i++) {
             var v = Object.values(roles[i])
@@ -337,7 +313,6 @@ function signOut() {
 $('a#school').click(loadSchool)
 $('a#admins').click(loadAdmins)
 $('a#role').click(signOut)
-$('a#back').click(signOut)
 $('a#name').click(showUser)
 
 

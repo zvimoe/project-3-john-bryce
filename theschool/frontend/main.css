@@ -20,3 +20,7 @@ li {
 #school,#admins{
   display:none
  }
+ #welcome-banner{
+   display:inline;
+   margin:29px;
+ }

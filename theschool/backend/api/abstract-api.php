@@ -2,37 +2,52 @@
  abstract class Api{
   
         abstract function create($params);
-        abstract function select($paramd);
+        abstract function select();
         abstract function update($params);
-        abstract function delete($params);
+        abstract function delete($id);
 
     public function manager($func,$params){
         switch($func){
             case 'POST':
+            if ($_SESSION['permission'] == '1'||'2'){
             return $this->create($params);
-            case 'GET':
-            return $this->select($params);
-            case 'PUT':
-            return $this->update($params);
-            case 'DELETE': 
-            if(gettype($params)!='array()'){
-                return $this->delete($params);
             }
             else{
-                return $this->deleteAll($params);
+                return 'no permission';
             }
+            case 'GET':
+            if ($_SESSION['permission'] == '1'||'2'||'3'){
+                return $this->select($params);
+                }
+            else{
+                    return 'no permission';
+                }
+            case 'PUT':
+            if ($_SESSION['permission'] == '1'||'2'){
+                return $this->update($params);
+                }
+            else{
+                    return 'no permission';
+                }
+            case 'DELETE': 
+            if ($_SESSION['permission'] == '1'||'2'){
+                return $this->delete($params);
+                }
+            else{
+                    return 'no permission';
+                }
     
         }
     }
     protected function multiModelsToJson($models){
-        $arrayOfModels=array();
+        $arrayOfData=array();
         foreach($models as $model){
-        $m= $model->getAllParams();
-        array_push($arrayOfModels,$m);
+        $data = $model->getAllParams();
+        array_push($arrayOfData,$data);
         }
-        $m=json_encode($arrayOfModels);
-        str_replace($m,'null', '');
-        return $m;
+        $res=json_encode($arrayOfData);
+        str_replace($res,'null', '');
+        return $res;
     }
        
 

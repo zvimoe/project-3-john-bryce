@@ -4,7 +4,7 @@ if (!sessionStorage.getItem('user')) {
     showLogin()
 }
 else {
-    load(sessionStorage.getItem('user'))
+    load(JSON.parse(sessionStorage.getItem('user')))
 }
 function showLogin() {
     app.getTemp('tamplates/login/login.html').done(function (data) {
@@ -28,8 +28,8 @@ function login() {
 
     });
 }
-function load(admin) {
-    let a = JSON.parse(admin);
+function load(a) {
+    
     $('#welcome-banner').css('display', 'none')
     $('#userpic').attr("src", a.image);
     $('#name').append('hi ' + a.name)

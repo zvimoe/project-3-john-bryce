@@ -36,7 +36,7 @@
       function update($params){
         if ($_SESSION['permission'] == '1'){
           $mc = new AdminCtrl;
-          return $mc->upadte($params);
+          return $mc->update($params);
         }
         else{
             return "you dont have permission";

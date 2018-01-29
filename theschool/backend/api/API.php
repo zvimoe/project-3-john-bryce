@@ -5,12 +5,12 @@ session_start();
    require_once "course-api.php";
    require_once "student-courses-api.php";
    require_once "roles-api.php"; 
-   $debugMode = false;
+   $debugMode = true;
    if ($debugMode == true){
     $_SESSION['permission'] = '1';
-    $meth ='DELETE';
-    $action = 'students_courses';
-    $adata =  array('id'=>'78','colum'=>'s_id');// 'name'=>'fdgsfdg','role_id'=>'1','image'=>'jghgchxg','phone'=>'gdhhdhgs','email'=>'hsghgshd','password'=>'56523',);
+    $meth ='PUT';
+    $action = 'admins';
+    $adata =  array('id'=>'31','name'=>'fdgsfdg','role_id'=>'1','image'=>'jghgchxg','phone'=>'gdhhdhgs','email'=>'hsghgshd','password'=>'56523',);
    }
    else{
         $meth= strtoupper($_SERVER['REQUEST_METHOD']);

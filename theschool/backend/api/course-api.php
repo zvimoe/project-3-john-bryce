@@ -23,9 +23,8 @@ require_once "abstract-api.php";
         
       } 
       function update($params){
-        $m = new \model\Course;
         $mc = new CtrlCourse;
-          return $mc->upadte($m);
+        return $mc->update($params);
       }
       function delete($id){      
           $mc = new CtrlCourse;

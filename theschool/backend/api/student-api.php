@@ -25,7 +25,7 @@ require_once "abstract-api.php";
       function update($params){
         $m = new \model\student;
         $mc = new studentCtrl;
-          return $mc->upadte($m);
+          return $mc-update($params);
       }
       function delete($id){
         $mc = new studentCtrl;

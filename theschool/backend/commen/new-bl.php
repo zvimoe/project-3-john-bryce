@@ -16,7 +16,7 @@ class Bl{
                 return $stmt;
             }
            
- }
+    }
     public function getTable($table){
         $stmt =  $this->connect(null,'SELECT * FROM '.$table);
         if($table=='students_courses'||$table=='roles'){
@@ -31,7 +31,7 @@ class Bl{
         else{
             return null;
         }
-        } 
+    } 
     public function login($name,$password,$table){
             
             $stmt = $this->connect(null, "SELECT * FROM $table WHERE name = '$name' AND password = '$password'");
@@ -44,13 +44,22 @@ class Bl{
                 return null;
                 
             }
-   }
-   public function delete($indecator,$indColum,$table){
-      echo $indecator;
-      $this->connect(null,"DELETE FROM $table WHERE $indColum =$indecator");
     }
-
-  
+    public function update($params,$Colum,$table){
+        $id=array_shift($params);
+        $query = "UPDATE $table SET";
+        $prep = array();
+        foreach($params as $k => $v ) { 
+            $query .= ' '.$k.' = :'.$k.','; 
+            $prep[':'.$k] = $v; 
+        }
+        $query = substr($query, 0, -1).' '; // remove last , and add a ;
+        $this->connect($prep,$query."WHERE $Colum=$id");
+    }
+    public function delete($id,$Colum,$table){
+      echo $id;
+      $this->connect(null,"DELETE FROM $table WHERE $Colum =$id");
+    }
     public function connect($exct,$quary){
        $con = new DAL('theschool');
        $stmt =$con->prepareQuary($quary);

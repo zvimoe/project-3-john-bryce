@@ -25,9 +25,8 @@
             return $stmt;
         }
         public function update($params){
-            $data=$model->getAllParams();
             $bl=new BL;
-            $stmt=$bl->update($data,$this->table);
+            $stmt=$bl->update($params,'id',$this->table);
             return $stmt;
     }
 }

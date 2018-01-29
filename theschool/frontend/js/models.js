@@ -5,6 +5,7 @@ function Person(id, name, phone, email,password, image) {
     this.email = email;
     this.image = image;
     this.phone = phone;
+    this.password = password;
 }
 
 function Admin(id, name, role_id, phone, email, password, image) {
